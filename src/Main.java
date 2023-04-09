@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Main {
@@ -52,8 +53,8 @@ public class Main {
 								System.out.print("Enter your Choice: ");
 								choice = input.nextInt();
 								if (choice == 1) {
-									
-								}else if (choice == 2) {
+
+								} else if (choice == 2) {
 
 								} else if (choice == 3) {
 
@@ -62,7 +63,7 @@ public class Main {
 								} else {
 									System.out.println("\nPlease enter a valid choice from 1 to 4");
 								}
-							}							
+							}
 						} else if (choice == 2) {
 							while (true) {
 								System.out.println("\n----------------------------------------------");
@@ -75,8 +76,8 @@ public class Main {
 								System.out.print("Enter your Choice: ");
 								choice = input.nextInt();
 								if (choice == 1) {
-									
-								}else if (choice == 2) {
+
+								} else if (choice == 2) {
 
 								} else if (choice == 3) {
 
@@ -98,8 +99,8 @@ public class Main {
 								System.out.print("Enter your Choice: ");
 								choice = input.nextInt();
 								if (choice == 1) {
-									
-								}else if (choice == 2) {
+
+								} else if (choice == 2) {
 
 								} else if (choice == 3) {
 
@@ -121,8 +122,8 @@ public class Main {
 								System.out.print("Enter your Choice: ");
 								choice = input.nextInt();
 								if (choice == 1) {
-									
-								}else if (choice == 2) {
+
+								} else if (choice == 2) {
 
 								} else if (choice == 3) {
 
@@ -144,8 +145,8 @@ public class Main {
 								System.out.print("Enter your Choice: ");
 								choice = input.nextInt();
 								if (choice == 1) {
-									
-								}else if (choice == 2) {
+
+								} else if (choice == 2) {
 
 								} else if (choice == 3) {
 
@@ -154,7 +155,7 @@ public class Main {
 								} else {
 									System.out.println("\nPlease enter a valid choice from 1 to 4");
 								}
-							}						
+							}
 						} else if (choice == 6) {
 							while (true) {
 								System.out.println("\n----------------------------------------------");
@@ -167,8 +168,8 @@ public class Main {
 								System.out.print("Enter your Choice: ");
 								choice = input.nextInt();
 								if (choice == 1) {
-									
-								}else if (choice == 2) {
+
+								} else if (choice == 2) {
 
 								} else if (choice == 3) {
 
@@ -177,13 +178,13 @@ public class Main {
 								} else {
 									System.out.println("\nPlease enter a valid choice from 1 to 4");
 								}
-							}						
+							}
 						} else if (choice == 7) {
-							
+
 						} else if (choice == 8) {
-							
+
 						} else if (choice == 9) {
-							
+
 						} else if (choice == 10) {
 							break;
 						} else {
@@ -207,21 +208,21 @@ public class Main {
 						System.out.print("Enter your Choice: ");
 						choice = input.nextInt();
 						if (choice == 1) {
-											
-						}else if (choice == 2) {
+
+						} else if (choice == 2) {
 
 						} else if (choice == 3) {
 
 						} else if (choice == 4) {
 
 						} else if (choice == 5) {
-							
+
 						} else if (choice == 6) {
-							
+
 						} else if (choice == 7) {
-							
+
 						} else if (choice == 8) {
-								
+
 						} else if (choice == 9) {
 							break;
 						} else {
@@ -241,8 +242,8 @@ public class Main {
 						System.out.print("Enter your Choice: ");
 						choice = input.nextInt();
 						if (choice == 1) {
-							
-						}else if (choice == 2) {
+
+						} else if (choice == 2) {
 
 						} else if (choice == 3) {
 
@@ -273,27 +274,27 @@ public class Main {
 						System.out.print("Enter your Choice: ");
 						choice = input.nextInt();
 						if (choice == 1) {
-							
-						}else if (choice == 2) {
+
+						} else if (choice == 2) {
 
 						} else if (choice == 3) {
 
 						} else if (choice == 4) {
 
 						} else if (choice == 5) {
-							
+
 						} else if (choice == 6) {
-							
+
 						} else if (choice == 7) {
-							
+
 						} else if (choice == 8) {
-							
+
 						} else if (choice == 9) {
-							
+
 						} else if (choice == 10) {
-							
+
 						} else if (choice == 11) {
-							
+
 						} else if (choice == 12) {
 							break;
 						} else {
@@ -307,12 +308,15 @@ public class Main {
 					System.out.println("\nPlease enter a valid choice from 1 to 5");
 				}
 			}
-		}
-		catch(Exception e) {
-			return;
-		}
-		finally {
-			DBConnect.close();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+
+			try {
+				DBConnect.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			input.close();
 		}
 

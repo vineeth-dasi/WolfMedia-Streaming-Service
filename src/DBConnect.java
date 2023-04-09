@@ -12,26 +12,16 @@ public class DBConnect {
 	public static String user = "vdasi";
 	public static String pswd = "200473135";
 
-	public static void EstablishConnection()
+	public static void EstablishConnection() throws SQLException 
 	{
-			try {
 			connection = DriverManager.getConnection(url, user, pswd);
-			statement = connection.createStatement();
-			System.out.println("Successfully connected to DB");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}  
-		
+			System.out.println("Successfully connected to DB"); 
 	}
 
-	public static void close() {
+	public static void close() throws SQLException {
 		if (connection != null) {
-			try {
 				connection.close();
 				System.out.println("Successfully closed DB Connection");
-			} catch (Throwable whatever) {
-				System.out.println("ERROR closing connection" + whatever.toString());
-			}
 		}
 	}
 	
