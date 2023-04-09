@@ -5,11 +5,11 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 public class MetadataAndRecords {
-	public static Scanner input = new Scanner(System.in);
 	
     public static void enterOrUpdatePlayCountInfo() throws Exception{
         try{
             if (DBConnect.connection!=null){
+                Scanner input = new Scanner(System.in);
             	// Begin Transaction
             	DBConnect.connection.setAutoCommit(false);
             	
@@ -26,7 +26,7 @@ public class MetadataAndRecords {
                 int month = calendar.get(Calendar.MONTH) + 1; 
                 String yearMonth = (year + "-" + month).toString();
                 
-                String delQuery = "DELETE from PlayCount WHERE SongID=%d AND yearMonth=%d;";
+                String delQuery = "DELETE from PlayCount WHERE SongID=%d AND yearMonth=%s;";
                 delQuery = String.format(delQuery, songID, yearMonth);
                 
                 String insQuery = "INSERT INTO PlayCount VALUES(%d, %s, %d)";
@@ -37,16 +37,17 @@ public class MetadataAndRecords {
                 
                 // Commit Transaction
                 DBConnect.connection.commit();
+                input.close();
                 System.out.println("Play count updated succesfully");
             }
             else {
                 throw new Exception("Connection is null");
             }     
-            input.close();
         } catch (SQLException e) {
         	System.out.print("Failure: "+e);
         	// Rollback Transaction on failure
         	DBConnect.connection.rollback();
+            System.out.println("Transaction Rolled back");
         }
         finally {
         	// End Transaction 
