@@ -159,6 +159,7 @@ public class ReportGeneration {
 				ResultSet result = stmt.executeQuery(sql);
 				printHeader(result,' ',50);
 				printRows(result,' ',50);
+				result.close();
 			} else {
 				throw new SQLException("Connection is null");
 			}
