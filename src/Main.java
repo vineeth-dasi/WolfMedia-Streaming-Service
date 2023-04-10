@@ -273,27 +273,38 @@ public class Main {
 						System.out.print("Enter your Choice: ");
 						choice = input.nextInt();
 						if (choice == 1) {
-
+							System.out.println("\n----------------------------------------------");
+							ReportGeneration.calculateMonthlyPlayCountPerSong();
 						} else if (choice == 2) {
-
+							System.out.println("\n----------------------------------------------");
+							ReportGeneration.calculateMonthlyPlayCountPerAlbum();
 						} else if (choice == 3) {
-
+							System.out.println("\n----------------------------------------------");
+							ReportGeneration.calculateMonthlyPlayCountPerArtist();
 						} else if (choice == 4) {
-
+							System.out.println("\n----------------------------------------------");
+							ReportGeneration.calculateTotalPaymentsToHost();
 						} else if (choice == 5) {
-
+							System.out.println("\n----------------------------------------------");
+							ReportGeneration.calculateTotalPaymentsToArtist();
 						} else if (choice == 6) {
-
+							System.out.println("\n----------------------------------------------");
+							ReportGeneration.calculateTotalPaymentsToRecordLabel();
 						} else if (choice == 7) {
-
+							System.out.println("\n----------------------------------------------");
+							ReportGeneration.calculateTotalRevenuePerMonth();
 						} else if (choice == 8) {
-
+							System.out.println("\n----------------------------------------------");
+							ReportGeneration.calculateTotalRevenuePerYear();
 						} else if (choice == 9) {
-
+							System.out.println("\n----------------------------------------------");
+							ReportGeneration.findSongsWithArtist();
 						} else if (choice == 10) {
-
+							System.out.println("\n----------------------------------------------");
+							ReportGeneration.findSongsInAlbum();
 						} else if (choice == 11) {
-
+							System.out.println("\n----------------------------------------------");
+							ReportGeneration.findEpisodesInPodcast();
 						} else if (choice == 12) {
 							break;
 						} else {
