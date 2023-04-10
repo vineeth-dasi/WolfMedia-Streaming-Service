@@ -9,35 +9,34 @@ public class MetadataAndRecords {
     public static void enterOrUpdatePlayCountInfo() throws Exception{
         try{
             if (DBConnect.connection!=null){
-                Scanner input = new Scanner(System.in);
+//                Scanner input1 = new Scanner(System.in);
             	// Begin Transaction
             	DBConnect.connection.setAutoCommit(false);
             	
                 // Take Song ID as input
                 System.out.print("Enter Song ID: ");
-                int songID = input.nextInt();
+                int songID = Main.input.nextInt();
                 
                 // Take Play Count as input
                 System.out.print("Enter Play count: ");
-                int playCount = input.nextInt();
+                int playCount = Main.input.nextInt();
                 
                 Calendar calendar = Calendar.getInstance(); 
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH) + 1; 
-                String yearMonth = (year + "-" + month).toString();
+                String yearMonth = (year + "-" + String.format("%02d",month)).toString();
                 
-                String delQuery = "DELETE from PlayCount WHERE SongID=%d AND yearMonth=%s;";
+                String delQuery = "DELETE from PlayCount WHERE SongID=%d AND yearMonth='%s';";
                 delQuery = String.format(delQuery, songID, yearMonth);
                 
-                String insQuery = "INSERT INTO PlayCount VALUES(%d, %s, %d)";
+                String insQuery = "INSERT INTO PlayCount VALUES(%d, '%s', %d)";
                 insQuery = String.format(insQuery, songID, yearMonth, playCount);
                 
                 DBConnect.statement.executeUpdate(delQuery);
                 DBConnect.statement.executeUpdate(insQuery);
-                
+//                
                 // Commit Transaction
                 DBConnect.connection.commit();
-                input.close();
                 System.out.println("Play count updated succesfully");
             }
             else {

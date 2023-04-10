@@ -2,11 +2,10 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Main {
-
+	public static Scanner input = null;
 	public static void main(String args[]) {
-		Scanner input = new Scanner(System.in);
 		try {
-
+			input = new Scanner(System.in);
 			DBConnect.EstablishConnection();
 
 			int choice = 0;
@@ -208,7 +207,7 @@ public class Main {
 						System.out.print("Enter your Choice: ");
 						choice = input.nextInt();
 						if (choice == 1) {
-
+							MetadataAndRecords.enterOrUpdatePlayCountInfo();
 						} else if (choice == 2) {
 
 						} else if (choice == 3) {
