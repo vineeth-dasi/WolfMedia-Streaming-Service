@@ -22,6 +22,7 @@ public class DBConnect {
 	public static void close() throws SQLException {
 		if (connection != null) {
 				connection.close();
+				statement.close();
 				System.out.println("Successfully closed DB Connection");
 		}
 	}

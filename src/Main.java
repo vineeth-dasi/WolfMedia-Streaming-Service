@@ -209,19 +209,19 @@ public class Main {
 						if (choice == 1) {
 							MetadataAndRecords.enterOrUpdatePlayCountInfo();
 						} else if (choice == 2) {
-
+							MetadataAndRecords.enterOrUpdateMonthlyListenersInfo();
 						} else if (choice == 3) {
-
+							MetadataAndRecords.enterOrUpdateTotalSubscribesForPodcastInfo();
 						} else if (choice == 4) {
-
+							MetadataAndRecords.enterOrUpdateRatingForPodcastInfo();
 						} else if (choice == 5) {
-
+							MetadataAndRecords.enterOrUpdateListeningCountForPodcastEpisodeInfo();
 						} else if (choice == 6) {
-
+							MetadataAndRecords.findSongsWithArtist();
 						} else if (choice == 7) {
-
+							MetadataAndRecords.findSongsInAlbum();
 						} else if (choice == 8) {
-
+							MetadataAndRecords.findEpisodesInPodcast();
 						} else if (choice == 9) {
 							break;
 						} else {
