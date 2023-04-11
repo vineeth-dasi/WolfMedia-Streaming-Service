@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
-public class MetadataAndRecords {
+public class MaintainingMetadataAndRecords {
 	
     public static void enterOrUpdatePlayCountInfo() throws Exception{
         try{

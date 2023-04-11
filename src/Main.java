@@ -18,7 +18,8 @@ public class Main {
 				System.out.println("2. Data Manager-Maintaining metadata and records");
 				System.out.println("3. Finance Manager-Maintaining payments");
 				System.out.println("4. Account Manager-Reports");
-				System.out.println("5. Exit menu");
+				System.out.println("5. Generate Payments");
+				System.out.println("6. Exit menu");
 				System.out.print("Enter your Choice: ");
 				choice = input.nextInt();
 
@@ -207,21 +208,21 @@ public class Main {
 						System.out.print("Enter your Choice: ");
 						choice = input.nextInt();
 						if (choice == 1) {
-							MetadataAndRecords.enterOrUpdatePlayCountInfo();
+							MaintainingMetadataAndRecords.enterOrUpdatePlayCountInfo();
 						} else if (choice == 2) {
-							MetadataAndRecords.enterOrUpdateMonthlyListenersInfo();
+							MaintainingMetadataAndRecords.enterOrUpdateMonthlyListenersInfo();
 						} else if (choice == 3) {
-							MetadataAndRecords.enterOrUpdateTotalSubscribesForPodcastInfo();
+							MaintainingMetadataAndRecords.enterOrUpdateTotalSubscribesForPodcastInfo();
 						} else if (choice == 4) {
-							MetadataAndRecords.enterOrUpdateRatingForPodcastInfo();
+							MaintainingMetadataAndRecords.enterOrUpdateRatingForPodcastInfo();
 						} else if (choice == 5) {
-							MetadataAndRecords.enterOrUpdateListeningCountForPodcastEpisodeInfo();
+							MaintainingMetadataAndRecords.enterOrUpdateListeningCountForPodcastEpisodeInfo();
 						} else if (choice == 6) {
-							MetadataAndRecords.findSongsWithArtist();
+							MaintainingMetadataAndRecords.findSongsWithArtist();
 						} else if (choice == 7) {
-							MetadataAndRecords.findSongsInAlbum();
+							MaintainingMetadataAndRecords.findSongsInAlbum();
 						} else if (choice == 8) {
-							MetadataAndRecords.findEpisodesInPodcast();
+							MaintainingMetadataAndRecords.findEpisodesInPodcast();
 						} else if (choice == 9) {
 							break;
 						} else {
@@ -302,6 +303,8 @@ public class Main {
 					}
 
 				} else if (choice == 5) {
+					MaintainingPayments.generatePaymnets();
+				} else if (choice == 6) {
 					break;
 				} else {
 					System.out.println("\nPlease enter a valid choice from 1 to 5");
