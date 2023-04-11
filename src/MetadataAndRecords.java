@@ -1,4 +1,5 @@
 import java.util.Calendar;
+import org.verdictdb.commons.DBTablePrinter;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -169,7 +170,7 @@ public class MetadataAndRecords {
                 query = String.format(query, artistID);
                 
                 ResultSet result = DBConnect.statement.executeQuery(query);
-                printResult(result);
+                DBTablePrinter.printResultSet(result);
                 result.close();
             }
             else {
@@ -192,7 +193,7 @@ public class MetadataAndRecords {
                 query = String.format(query, albumID);
                 
                 ResultSet result = DBConnect.statement.executeQuery(query);
-                printResult(result);
+                DBTablePrinter.printResultSet(result);
                 result.close();
             }
             else {
@@ -215,7 +216,7 @@ public class MetadataAndRecords {
                 query = String.format(query, podcastID);
                 
                 ResultSet result = DBConnect.statement.executeQuery(query);
-                printResult(result);
+                DBTablePrinter.printResultSet(result);
                 result.close();
             }
             else {

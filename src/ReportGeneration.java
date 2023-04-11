@@ -13,6 +13,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import org.verdictdb.commons.DBTablePrinter;
 
 public class ReportGeneration {
 	
@@ -157,8 +158,7 @@ public class ReportGeneration {
 			Statement stmt = DBConnect.statement;
 			if (stmt != null) {
 				ResultSet result = stmt.executeQuery(sql);
-				printHeader(result,' ',50);
-				printRows(result,' ',50);
+				DBTablePrinter.printResultSet(result);
 				result.close();
 			} else {
 				throw new SQLException("Connection is null");

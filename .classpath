@@ -6,6 +6,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/vineeth/OneDrive/Documents/GitHub/WolfMedia-Streaming-Service/mariadb-java-client-2.3.0.jar"/>
+	<classpathentry kind="lib" path="/Users/sahithiammana/Documents/GitHub/WolfMedia-Streaming-Service/mariadb-java-client-2.3.0.jar"/>
+	<classpathentry kind="lib" path="/Users/sahithiammana/Documents/GitHub/WolfMedia-Streaming-Service/verdictdb-core-0.5.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
