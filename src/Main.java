@@ -242,11 +242,11 @@ public class Main {
 						System.out.print("Enter your Choice: ");
 						choice = input.nextInt();
 						if (choice == 1) {
-
+							MaintainingPayments.makeRoyaltyPayment();
 						} else if (choice == 2) {
-
+							MaintainingPayments.makePodcastPayment();
 						} else if (choice == 3) {
-
+							MaintainingPayments.receiveSubscribersPayment();
 						} else if (choice == 4) {
 							break;
 						} else {
