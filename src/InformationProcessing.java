@@ -1,5 +1,4 @@
 import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.Scanner;
 
 public class InformationProcessing {
@@ -45,15 +44,10 @@ public class InformationProcessing {
 				System.out.print("Enter Royalty Rate: ");
 				float royaltyrate = input.nextFloat();
 
-				Calendar calendar = Calendar.getInstance();
-				int year = calendar.get(Calendar.YEAR);
-				int month = calendar.get(Calendar.MONTH) + 1;
-				String yearMonth = (year + "-" + month).toString();
 
-				String insQuery = "INSERT INTO PlayCount VALUES(%d, %s, %d)";
-				insQuery = String.format(insQuery, songID, yearMonth, playCount);
-
-				DBConnect.statement.executeUpdate(delQuery);
+				String insQuery = "INSERT INTO Song (SongID, SongTitle, Duration, AlbumID, TrackNumber, ReleaseDate, ReleaseCountry, Language, RoyaltyRate) VALUES (%d, '%s', '%s', %d, %d, '%s', '%s', '%s', %f);";
+				insQuery = String.format(insQuery, songID, songTitle,songduration,AlbumID,trackNumber,releaseDate,releaseCountry,language,royaltyrate);
+				
 				DBConnect.statement.executeUpdate(insQuery);
 
 				input.close();
@@ -371,7 +365,7 @@ public class InformationProcessing {
 				int AdvertisementCount = input.nextInt();
 
 				String InsertQuery = "INSERT INTO PodcastEpisode (EpisodeID, EpisodeTitle, PodcastID, Duration, ReleaseDate, ListeningCount, AdvertisementCount) VALUES (%d, '%s', %d, %d, '%s', %d, %d);";
-				InsertQuery = String.format(InsertQuery, episodeID, episodeTitle, podcastID, Duration, listeningCount,
+				InsertQuery = String.format(InsertQuery, episodeID, episodeTitle, podcastID, Duration, releasedate,listeningCount,
 						AdvertisementCount);
 
 				DBConnect.statement.executeUpdate(InsertQuery);
@@ -443,5 +437,168 @@ public class InformationProcessing {
 			DBConnect.connection.setAutoCommit(true);
 		}
 	}
+	
+	
+	public static void AssignSongsToArtists() throws Exception {
+		try {
+			if (DBConnect.connection != null) {
+				Scanner input = new Scanner(System.in);
+
+				// Take song ID as input
+				System.out.print("Enter song ID: ");
+				int songID = input.nextInt();
+				
+				// Take Artist Id as input
+				System.out.print("Enter Artist ID: ");
+				int ArtistId = input.nextInt();
+				
+				
+				// Take main artist status as input
+				System.out.print("Enter MainArtist Status: ");
+				String mainArtistStatus = input.next();
+				
+
+				String InsertQuery = "INSERT INTO PerformedBy (SongID, ArtistID, MainArtistStatus) VALUES (%d, %d, '%f');";
+				InsertQuery = String.format(InsertQuery, songID,ArtistId,mainArtistStatus);
+				
+				
+				DBConnect.statement.executeUpdate(InsertQuery);
+
+				input.close();
+				System.out.println("song assigned to album succesfully");
+			} else {
+				throw new Exception("Connection is null");
+			}
+		} catch (SQLException e) {
+			System.out.print("Failure: " + e);
+		} finally {
+			DBConnect.connection.setAutoCommit(true);
+		}
+	}
+	
+	
+	public static void AssignArtistToRecordLabel() throws Exception {
+		try {
+			if (DBConnect.connection != null) {
+				Scanner input = new Scanner(System.in);
+
+				// Take Artist ID as input
+				System.out.print("Enter Artist ID: ");
+				int artistID = input.nextInt();
+				
+				// Take startdate as input
+				System.out.print("Enter start date: ");
+				String startdate = input.next();
+				
+				// Take enddate as input
+				System.out.print("Enter end date: ");
+				String enddate = input.next();
+				
+				// Take label name as input
+				System.out.print("Enter label name: ");
+				String labelname = input.next();
+				
+
+				String InsertQuery = "INSERT INTO Contract (ArtistID, StartDate, EndDate, LabelName) VALUES (%d, '%s', '%s', '%s');";
+				InsertQuery = String.format(InsertQuery, artistID,startdate,enddate,labelname);
+
+				DBConnect.statement.executeUpdate(InsertQuery);
+
+				input.close();
+				System.out.println("artist assigned to record label succesfully");
+			} else {
+				throw new Exception("Connection is null");
+			}
+		} catch (SQLException e) {
+			System.out.print("Failure: " + e);
+		} finally {
+			DBConnect.connection.setAutoCommit(true);
+		}
+	}
+	
+	
+	public static void AssignPodcastEpisodeToPodcast() throws Exception {
+		try {
+			if (DBConnect.connection != null) {
+				Scanner input = new Scanner(System.in);
+
+				// Take episode ID as input
+				System.out.print("Enter episode ID: ");
+				int episodeID = input.nextInt();
+				
+				// Take episode title as input
+				System.out.print("Enter Episode Title: ");
+				String episodeTitle = input.next();
+				
+				// Take podcast ID as input
+				System.out.print("Enter Podcast ID: ");
+				int podcastId = input.nextInt();
+				
+				// Take Duration as input
+				System.out.print("Enter Duration: ");
+				String duration = input.next();
+				
+				// Take release data as input
+				System.out.print("Enter release date: ");
+				String releasedate = input.next();
+				
+				// Take listening count as input
+				System.out.print("Enter listening count: ");
+				int listeningCount = input.nextInt();
+				
+				// Take Advertisement count as input
+				System.out.print("Enter Adverstisement count: ");
+				int AdvertisementCount = input.nextInt();
+				
+				String InsertQuery = "INSERT INTO PodcastEpisode (EpisodeID, EpisodeTitle, PodcastID, Duration, ReleaseDate, ListeningCount, AdvertisementCount) VALUES (%d, '%s', %d, %d, '%s', %d, %d);";
+				InsertQuery = String.format(InsertQuery,episodeID,episodeTitle,podcastId,duration,releasedate,listeningCount,AdvertisementCount);
+
+				DBConnect.statement.executeUpdate(InsertQuery);
+
+				input.close();
+				System.out.println("Assigned podcast Episode to podacast succesfully");
+			} else {
+				throw new Exception("Connection is null");
+			}
+		} catch (SQLException e) {
+			System.out.print("Failure: " + e);
+		} finally {
+			DBConnect.connection.setAutoCommit(true);
+		}
+	}
+	
+	
+	public static void AssignPodcastHostToPodcast() throws Exception {
+		try {
+			if (DBConnect.connection != null) {
+				Scanner input = new Scanner(System.in);
+
+				// Take Podcast ID as input
+				System.out.print("Enter Podcast ID: ");
+				int podcastID = input.nextInt();
+				
+				// Take HostId as input
+				System.out.print("Enter HostId: ");
+				int HostId = input.nextInt();
+				
+				
+				String InsertQuery = "INSERT INTO HostedBy (PodcastID, HostID) VALUES (%d, %d);";
+				InsertQuery = String.format(InsertQuery,podcastID,HostId);
+
+				DBConnect.statement.executeUpdate(InsertQuery);
+
+				input.close();
+				System.out.println("Assigned podcast host to podacast succesfully");
+			} else {
+				throw new Exception("Connection is null");
+			}
+		} catch (SQLException e) {
+			System.out.print("Failure: " + e);
+		} finally {
+			DBConnect.connection.setAutoCommit(true);
+		}
+	}
+	
+	
 
 }
