@@ -37,7 +37,7 @@ public class MaintainingMetadataAndRecords {
                 
                 // Commit Transaction
                 DBConnect.connection.commit();
-                System.out.println("Play count Updated Successfully");
+                System.out.println("\nPlay count Updated Successfully");
             }
             else {
                 throw new Exception("Connection is null");
@@ -69,8 +69,13 @@ public class MaintainingMetadataAndRecords {
                 String updateQuery = "UPDATE Artist SET MonthlyListeners=%d WHERE ArtistID=%d;";
                 updateQuery = String.format(updateQuery, monthlyListeners, artistID);
                 
-                DBConnect.statement.executeUpdate(updateQuery);
-                System.out.println("Monthly Listeners Updated Successfully");
+                
+                int res = DBConnect.statement.executeUpdate(updateQuery);
+                if (res > 0) {
+                	System.out.println("\nMonthly Listeners Updated Successfully");
+                } else {
+                	System.out.println("\nArtist not found");
+                }
             }
             else {
                 throw new Exception("Connection is null");
@@ -94,9 +99,13 @@ public class MaintainingMetadataAndRecords {
                 
                 String updateQuery = "UPDATE Podcast SET TotalSubscribers=%d WHERE PodcastID=%d;";
                 updateQuery = String.format(updateQuery, totalSubscribers, podcastID);
-                
-                DBConnect.statement.executeUpdate(updateQuery);
-                System.out.println("Total Subscribers Updated Successfully");
+                                
+                int res = DBConnect.statement.executeUpdate(updateQuery);
+                if (res > 0) {
+                	System.out.println("\nTotal Subscribers Updated Successfully");
+                } else {
+                	System.out.println("\nPodcast not found");
+                }
             }
             else {
                 throw new Exception("Connection is null");
@@ -120,9 +129,15 @@ public class MaintainingMetadataAndRecords {
                 
                 String updateQuery = "UPDATE Podcast SET Rating=%f WHERE PodcastID=%d;";
                 updateQuery = String.format(updateQuery, rating, podcastID);
+                                
+                int res = DBConnect.statement.executeUpdate(updateQuery);
+                if (res > 0) {
+                	System.out.println("\nRating Updated Successfully");
+                } else {
+                	System.out.println("\nPodcast not found");
+                }
                 
-                DBConnect.statement.executeUpdate(updateQuery);
-                System.out.println("Rating Updated Successfully");
+                
             }
             else {
                 throw new Exception("Connection is null");
@@ -147,8 +162,12 @@ public class MaintainingMetadataAndRecords {
                 String updateQuery = "UPDATE PodcastEpisode SET ListeningCount=%d WHERE EpisodeID=%d;";
                 updateQuery = String.format(updateQuery, listeningCount, episodeID);
                 
-                DBConnect.statement.executeUpdate(updateQuery);
-                System.out.println("Listening Count Updated Successfully");
+                int res = DBConnect.statement.executeUpdate(updateQuery);
+                if (res > 0) {
+                	System.out.println("\nListening Count Updated Successfully");
+                } else {
+                	System.out.println("\nPodcast Episode not found");
+                }
             }
             else {
                 throw new Exception("Connection is null");
@@ -170,7 +189,13 @@ public class MaintainingMetadataAndRecords {
                 query = String.format(query, artistID);
                 
                 ResultSet result = DBConnect.statement.executeQuery(query);
-                DBTablePrinter.printResultSet(result);
+                
+                if (!result.isBeforeFirst()) {
+                    System.out.println("\nNo songs found");
+                } else {
+                	DBTablePrinter.printResultSet(result);
+                }
+                                            
                 result.close();
             }
             else {
@@ -193,7 +218,11 @@ public class MaintainingMetadataAndRecords {
                 query = String.format(query, albumID);
                 
                 ResultSet result = DBConnect.statement.executeQuery(query);
-                DBTablePrinter.printResultSet(result);
+                if (!result.isBeforeFirst()) {
+                    System.out.println("\nNo songs found");
+                } else {
+                	DBTablePrinter.printResultSet(result);
+                }
                 result.close();
             }
             else {
@@ -216,7 +245,11 @@ public class MaintainingMetadataAndRecords {
                 query = String.format(query, podcastID);
                 
                 ResultSet result = DBConnect.statement.executeQuery(query);
-                DBTablePrinter.printResultSet(result);
+                if (!result.isBeforeFirst()) {
+                    System.out.println("\nNo Podcast Episodes found");
+                } else {
+                	DBTablePrinter.printResultSet(result);
+                }
                 result.close();
             }
             else {
@@ -227,22 +260,22 @@ public class MaintainingMetadataAndRecords {
         }
     }
     
-    public static void printResult(ResultSet result) throws SQLException {
-    	ResultSetMetaData metaData = result.getMetaData();
-        int columnCount = metaData.getColumnCount();
-        
-        for (int i = 1; i <= columnCount; i++) {
-        	String columnName = metaData.getColumnName(i);
-            System.out.printf("%-20s", columnName);
-        }
-        System.out.println();
-        
-        while (result.next()) {
-        	for (int i = 1; i <= columnCount; i++) {
-                String value = result.getString(i);
-                System.out.printf("%-20s", value);
-            }
-            System.out.println();
-        }
-    }
+//    public static void printResult(ResultSet result) throws SQLException {
+//    	ResultSetMetaData metaData = result.getMetaData();
+//        int columnCount = metaData.getColumnCount();
+//        
+//        for (int i = 1; i <= columnCount; i++) {
+//        	String columnName = metaData.getColumnName(i);
+//            System.out.printf("%-20s", columnName);
+//        }
+//        System.out.println();
+//        
+//        while (result.next()) {
+//        	for (int i = 1; i <= columnCount; i++) {
+//                String value = result.getString(i);
+//                System.out.printf("%-20s", value);
+//            }
+//            System.out.println();
+//        }
+//    }
 }

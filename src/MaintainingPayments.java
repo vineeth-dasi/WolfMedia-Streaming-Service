@@ -26,13 +26,17 @@ public class MaintainingPayments {
                 ResultSet result = DBConnect.statement.executeQuery(query);
                 result.next();
                 if(result.getInt(1) > 0) {
-                	System.out.println("Payment is already made");
+                	System.out.println("\nPayment is already made");
                 } else {
                 	String insQuery = "UPDATE RoyaltyPayments SET PaidStatus='true' WHERE SongID=%d AND yearMonth='%s'";
                     insQuery = String.format(insQuery, songID, yearMonth);
                     
-                    DBConnect.statement.executeUpdate(insQuery);
-                    System.out.println("Made payment Successfully");
+                    int res = DBConnect.statement.executeUpdate(insQuery);
+                    if (res > 0) {
+                    	System.out.println("\nMade payment Successfully");
+                    } else {
+                    	System.out.println("\nNo payment records found");
+                    }
                 }
                 
                 // Commit Transaction
@@ -75,13 +79,17 @@ public class MaintainingPayments {
                 ResultSet result = DBConnect.statement.executeQuery(query);
                 result.next();
                 if(result.getInt(1) > 0) {
-                	System.out.println("Payment is already made");
+                	System.out.println("\nPayment is already made");
                 } else {
                 	String insQuery = "UPDATE PodcastPayments SET PaidStatus='true' WHERE HostID=%d AND yearMonth='%s'";
                     insQuery = String.format(insQuery, hostID, yearMonth);
                     
-                    DBConnect.statement.executeUpdate(insQuery);
-                    System.out.println("Made payment Successfully");
+                    int res = DBConnect.statement.executeUpdate(insQuery);
+                    if (res > 0) {
+                    	System.out.println("\nMade payment Successfully");
+                    } else {
+                    	System.out.println("\nNo payment records found");
+                    }
                 }
                 
                 // Commit Transaction
@@ -124,13 +132,17 @@ public class MaintainingPayments {
                 ResultSet result = DBConnect.statement.executeQuery(query);
                 result.next();
                 if(result.getInt(1) > 0) {
-                	System.out.println("Payment is already received");
+                	System.out.println("\nPayment is already received");
                 } else {
                 	String insQuery = "UPDATE SubscriptionPayments SET ReceivedStatus='true' WHERE UserID=%d AND yearMonth='%s'";
                     insQuery = String.format(insQuery, userID, yearMonth);
                     
-                    DBConnect.statement.executeUpdate(insQuery);
-                    System.out.println("Received payment Successfully");
+                    int res = DBConnect.statement.executeUpdate(insQuery);
+                    if (res > 0) {
+                    	System.out.println("\nReceived payment Successfully");
+                    } else {
+                    	System.out.println("\nNo payment records found");
+                    }
                 }
                 
                 // Commit Transaction
@@ -178,13 +190,13 @@ public class MaintainingPayments {
                 ResultSet result = DBConnect.statement.executeQuery(query);
                 result.next();
                 if(result.getInt(1) > 0) {
-                	System.out.println("Royalty Payments are already generated");
+                	System.out.println("\nRoyalty Payments are already generated");
                 } else {
                 	String insQuery = "INSERT INTO RoyaltyPayments (SongID, YearMonth, Payment, PaidStatus) SELECT p.SongID, p.YearMonth, s.RoyaltyRate*p.Count, 'false' FROM PlayCount p INNER JOIN Song s ON p.SongID=s.SongID WHERE p.YearMonth='%s';";
                     insQuery = String.format(insQuery, yearMonth);
                     
                     DBConnect.statement.executeUpdate(insQuery);
-                    System.out.println("Royalty Payments generated Successfully");
+                    System.out.println("\nRoyalty Payments generated Successfully");
                 }
                 
                 // Commit Transaction
@@ -223,14 +235,14 @@ public class MaintainingPayments {
                 ResultSet result = DBConnect.statement.executeQuery(query);
                 result.next();
                 if(result.getInt(1) > 0) {
-                	System.out.println("Podcast Payments are already generated");
+                	System.out.println("\nPodcast Payments are already generated");
                 } else {
                 	String insQuery = "INSERT INTO PodcastPayments (HostID, YearMonth, Payment, PaidStatus)\r\n"
                             + "SELECT cnt.HostID, DATE_FORMAT(pe.ReleaseDate, %s), FORMAT(SUM(p.FeePerEpisode + (pe.AdvertisementCount * 10)) / cnt.NumHostsPerPodcast,2) AS RevenuePerHost, 'false' FROM PodcastEpisode pe JOIN Podcast p ON pe.PodcastID = p.PodcastID JOIN ( SELECT h.PodcastID, h.HostID, hp.NumHostsPerPodcast FROM HostedBy h INNER JOIN ( SELECT PodcastID, COUNT(HostID) AS NumHostsPerPodcast FROM HostedBy GROUP BY PodcastID ) AS hp ON h.PodcastID = hp.PodcastID ) AS cnt ON cnt.PodcastID = p.PodcastID WHERE DATE_FORMAT(pe.ReleaseDate, %s) = '%s' GROUP BY cnt.HostID, DATE_FORMAT(pe.ReleaseDate, %s);";
                 	insQuery = String.format(insQuery, "'%Y-%m'", "'%Y-%m'", yearMonth, "'%Y-%m'");
                     
                 	DBConnect.statement.executeUpdate(insQuery);
-                    System.out.println("Podcast Payments generated Successfully");
+                    System.out.println("\nPodcast Payments generated Successfully");
                 }
                 
                 // Commit Transaction
@@ -271,7 +283,7 @@ public class MaintainingPayments {
                 ResultSet result = DBConnect.statement.executeQuery(query);
                 result.next();
                 if(result.getInt(1) > 0) {
-                	System.out.println("Already Subscription Payments are generated");
+                	System.out.println("\nAlready Subscription Payments are generated");
                 } else {
                 	String insQuery = "INSERT INTO SubscriptionPayments (UserID, YearMonth, Payment, ReceivedStatus)\r\n"
                 			+ "SELECT u.UserID, '%s', u.MonthlySubscriptionFee, 'false' FROM User u\r\n"
@@ -279,7 +291,7 @@ public class MaintainingPayments {
                 	insQuery = String.format(insQuery, yearMonth, date);
                     
                 	DBConnect.statement.executeUpdate(insQuery);
-                    System.out.println("Subscription Payments generated Successfully");
+                    System.out.println("\nSubscription Payments generated Successfully");
                 }
                 
                 // Commit Transaction
