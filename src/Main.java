@@ -1,8 +1,10 @@
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
 	public static Scanner input = null;
+
 	public static void main(String args[]) {
 		try {
 			input = new Scanner(System.in);
@@ -53,11 +55,11 @@ public class Main {
 								System.out.print("Enter your Choice: ");
 								choice = input.nextInt();
 								if (choice == 1) {
-
+									InformationProcessing.EnterSongInfo();
 								} else if (choice == 2) {
-
+									InformationProcessing.UpdateSongInfo();
 								} else if (choice == 3) {
-
+									InformationProcessing.DeleteSongInfo();
 								} else if (choice == 4) {
 									break;
 								} else {
@@ -303,7 +305,7 @@ public class Main {
 					}
 
 				} else if (choice == 5) {
-					MaintainingPayments.generatePaymnets();
+//					MaintainingPayments.generatePaymnets();
 				} else if (choice == 6) {
 					break;
 				} else {
