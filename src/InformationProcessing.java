@@ -67,9 +67,7 @@ public class InformationProcessing {
 			System.out.print("Failure: " + e);
 		}
 
-		finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		
 	}
 
 	public static void UpdateSongInfo() throws Exception {
@@ -180,9 +178,7 @@ public class InformationProcessing {
 			Main.input.nextLine();
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 
 	public static void DeleteSongInfo() throws Exception {
@@ -211,9 +207,7 @@ public class InformationProcessing {
 			Main.input.nextLine();
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 
 	///////////////////////////////////////////////////////////////////////////////
@@ -255,9 +249,7 @@ public class InformationProcessing {
 			Main.input.nextLine();
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 
 	public static void UpdateAlbumInfo() throws Exception {
@@ -342,9 +334,7 @@ public class InformationProcessing {
 			Main.input.nextLine();
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 
 	public static void DeleteAlbumInfo() throws Exception {
@@ -374,9 +364,7 @@ public class InformationProcessing {
 			Main.input.nextLine();
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////
@@ -431,9 +419,7 @@ public class InformationProcessing {
 			Main.input.nextLine();
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 
 	}
 
@@ -531,9 +517,7 @@ public class InformationProcessing {
 			}
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 
 	public static void DeleteArtistInfo() throws Exception {
@@ -563,9 +547,7 @@ public class InformationProcessing {
 			Main.input.nextLine();
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -623,9 +605,7 @@ public class InformationProcessing {
 			Main.input.nextLine();
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 
 	public static void UpdatePodcastInfo() throws Exception {
@@ -731,9 +711,7 @@ public class InformationProcessing {
 			Main.input.nextLine();
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 
 	public static void DeletePodcastInfo() throws Exception {
@@ -763,9 +741,7 @@ public class InformationProcessing {
 			Main.input.nextLine();
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 
 	///////////////////////////////////////////////////////////////////
@@ -815,9 +791,7 @@ public class InformationProcessing {
 			}
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 
 	public static void UpdatePodcastEpisodeInfo() throws Exception {
@@ -914,9 +888,7 @@ public class InformationProcessing {
 			}
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 
 	public static void DeletePodcastEpisodeInfo() throws Exception {
@@ -941,9 +913,7 @@ public class InformationProcessing {
 			}
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -991,9 +961,7 @@ public class InformationProcessing {
 			Main.input.nextLine();
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 
 	public static void UpdatePodcastHostInfo() throws Exception {
@@ -1081,9 +1049,7 @@ public class InformationProcessing {
 			Main.input.nextLine();
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 
 	public static void DeletePodcastHostInfo() throws Exception {
@@ -1113,9 +1079,7 @@ public class InformationProcessing {
 			Main.input.nextLine();
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 	
 	/////////////////////////////////////////////////////////////////////////////////////////
@@ -1175,9 +1139,7 @@ public class InformationProcessing {
 			Main.input.nextLine();
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 	
 	public static void UpdateUserInfo() throws Exception {
@@ -1283,9 +1245,7 @@ public class InformationProcessing {
 			Main.input.nextLine();
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 
 	public static void DeleteUserInfo() throws Exception {
@@ -1315,9 +1275,7 @@ public class InformationProcessing {
 			Main.input.nextLine();
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -1353,9 +1311,7 @@ public class InformationProcessing {
 			Main.input.nextLine();
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -1364,29 +1320,30 @@ public class InformationProcessing {
 		try {
 			if (DBConnect.connection != null) {
 
+				//Begin Transaction
+				DBConnect.connection.setAutoCommit(false);
+				
 				// Take Artist ID as input
 				System.out.print("Enter Artist ID: ");
 				int artistID = Main.input.nextInt();
-
-				// Take startdate as input
-				System.out.print("Enter start date: ");
-				String startdate = Main.input.next();
-
-				// Take enddate as input
-				System.out.print("Enter end date: ");
-				String enddate = Main.input.next();
 
 				// Take label name as input
 				System.out.print("Enter label name: ");
 				Main.input.nextLine();
 				String labelname = Main.input.nextLine();
+				
+				String DelQuery="DELETE FROM Contract WHERE ArtistID="+artistID+";";
+				
+				String InsertQuery = "INSERT INTO Contract (ArtistID, StartDate, EndDate, LabelName) VALUES (%d, '2021-01-01', '2025-12-31', '%s');";
+				InsertQuery = String.format(InsertQuery, artistID, labelname);
 
-				String InsertQuery = "INSERT INTO Contract (ArtistID, StartDate, EndDate, LabelName) VALUES (%d, '%s', '%s', '%s');";
-				InsertQuery = String.format(InsertQuery, artistID, startdate, enddate, labelname);
-
+				DBConnect.statement.executeUpdate(DelQuery);
 				DBConnect.statement.executeUpdate(InsertQuery);
 
-				System.out.println("artist assigned to record label succesfully");
+				//commit transaction
+				DBConnect.connection.commit();
+				
+				System.out.println("Artist Assigned to Record Label succesfully");
 			} else {
 				throw new Exception("Connection is null");
 			}
@@ -1396,6 +1353,12 @@ public class InformationProcessing {
 			Main.input.nextLine();
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
+			
+			//rollback transaction on failure
+			DBConnect.connection.rollback();
+			
+			System.out.println("Transaction Rolled back");
+			
 		} finally {
 			DBConnect.connection.setAutoCommit(true);
 		}
@@ -1430,9 +1393,7 @@ public class InformationProcessing {
 			Main.input.nextLine();
 		} catch (SQLException e) {
 			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
+		} 
 	}
 
 }
