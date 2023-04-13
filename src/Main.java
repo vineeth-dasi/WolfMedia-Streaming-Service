@@ -36,10 +36,11 @@ public class Main {
 						System.out.println("4. Insert/Update/Delete a Podcast");
 						System.out.println("5. Insert/Update/Delete a PodcastEpisode");
 						System.out.println("6. Insert/Update/Delete a PodcastHost");
-						System.out.println("7. Assign Song to Artist");
-						System.out.println("8. Assign Artist to RecordLabel");
-						System.out.println("9. Assign PodcastHost to Podcast");
-						System.out.println("10. Return to main menu");
+						System.out.println("7. Insert/Update/Delete a User");
+						System.out.println("8. Assign Song to Artist");
+						System.out.println("9. Assign Artist to RecordLabel");
+						System.out.println("10. Assign PodcastHost to Podcast");
+						System.out.println("11. Return to main menu");
 						System.out.print("Enter your Choice: ");
 						choice = input.nextInt();
 
@@ -181,16 +182,41 @@ public class Main {
 									System.out.println("\nPlease enter a valid choice from 1 to 4");
 								}
 							}
-						} else if (choice == 7) {
+						}else if (choice == 7)
+						{
+							while (true) {
+								System.out.println("\n----------------------------------------------");
+								System.out.println("\tOperations on User");
+								System.out.println("----------------------------------------------");
+								System.out.println("1. Insert a User");
+								System.out.println("2. Update a User");
+								System.out.println("3. Delete a User");
+								System.out.println("4. Return to Information Processing menu");
+								System.out.print("Enter your Choice: ");
+								choice = input.nextInt();
+								if (choice == 1) {
+									InformationProcessing.EnterUserInfo();
+								} else if (choice == 2) {
+									InformationProcessing.UpdateUserInfo();
+								} else if (choice == 3) {
+									InformationProcessing.DeleteUserInfo();
+								} else if (choice == 4) {
+									break;
+								} else {
+									System.out.println("\nPlease enter a valid choice from 1 to 4");
+								}
+							}
+						}
+						else if (choice == 8) {
 							InformationProcessing.AssignSongsToArtists();
-						} else if (choice == 8) {
-							InformationProcessing.AssignArtistToRecordLabel();
 						} else if (choice == 9) {
-							InformationProcessing.AssignPodcastHostToPodcast();
+							InformationProcessing.AssignArtistToRecordLabel();
 						} else if (choice == 10) {
+							InformationProcessing.AssignPodcastHostToPodcast();
+						} else if (choice == 11) {
 							break;
 						} else {
-							System.out.println("\nPlease enter a valid choice from 1 to 10");
+							System.out.println("\nPlease enter a valid choice from 1 to 11");
 						}
 					}
 				} else if (choice == 2) {
