@@ -1136,7 +1136,7 @@ public class InformationProcessing {
 				// Take user last name as input
 				System.out.print("Enter User last name: ");
 				Main.input.nextLine();
-				String userlastName = Main.input.next();
+				String userlastName = Main.input.nextLine();
 
 				// Take phone as input
 				System.out.print("Enter Phone: ");
@@ -1148,8 +1148,8 @@ public class InformationProcessing {
 				String email = Main.input.nextLine();
 
 				// Take registration date as input
-				System.out.print("Enter Country: ");
-				String registrationDate = Main.input.nextLine();
+				System.out.print("Enter Registration date: ");
+				String registrationDate = Main.input.next();
 
 				// Take StatusOfSubscription as input
 				System.out.print("Enter Status Of Subscription: ");
@@ -1157,9 +1157,9 @@ public class InformationProcessing {
 
 				// Take monthly subscription fee as input
 				System.out.print("Enter monthly subscription fee: ");
-				String monthlySubscriptionFee = Main.input.next();
+				float monthlySubscriptionFee = Main.input.nextFloat();
 
-				String InsertQuery = "INSERT INTO User (UserID, FirstName, LastName, Phone, Email, RegistrationDate, StatusOfSubscription, MonthlySubscriptionFee) VALUES (%d, '%s', '%s', '%s', '%s', %d, %d);";
+				String InsertQuery = "INSERT INTO User (UserID, FirstName, LastName, Phone, Email, RegistrationDate, StatusOfSubscription, MonthlySubscriptionFee) VALUES (%d, '%s', '%s', '%s', '%s', '%s', '%s', %f);";
 				InsertQuery = String.format(InsertQuery, userID, userFirstName, userlastName, phone, email, registrationDate,
 						statusOfSubscription, monthlySubscriptionFee);
 
@@ -1178,7 +1178,146 @@ public class InformationProcessing {
 		} finally {
 			DBConnect.connection.setAutoCommit(true);
 		}
+	}
+	
+	public static void UpdateUserInfo() throws Exception {
+		try {
+			if (DBConnect.connection != null) {
 
+				// Take User ID as input
+				System.out.print("Enter User ID to Update: ");
+				int userID = Main.input.nextInt();
+
+				String selectQuery = "SELECT UserID, FirstName, LastName, Phone, Email, RegistrationDate, StatusOfSubscription, MonthlySubscriptionFee FROM User WHERE UserID="
+						+ userID + ";";
+				selectQuery = String.format(selectQuery, userID);
+				ResultSet result = DBConnect.statement.executeQuery(selectQuery);
+
+				if (!result.isBeforeFirst()) {
+					System.out.println("No user id found \n");
+					return;
+				}
+
+				ResultSetMetaData rsmd = result.getMetaData();
+				int nCols = rsmd.getColumnCount();
+				String[] attr = new String[nCols - 1];
+				if (result.next()) {
+					for (int i = 2; i <= nCols; ++i)
+						attr[i - 2] = result.getString(i);
+				}
+				result.close();
+
+				String[] orignal = Arrays.copyOf(attr, nCols - 1);
+
+				int choice;
+				String UpdateQuery = "UPDATE Podcast SET FirstName='%s', LastName='%s', Phone='%s', Email='%s', RegistrationDate='%s', StatusOfSubscription='%s', MonthlySubscriptionFee='%f' WHERE UserID=%d;";
+				boolean done = false;
+				while (!done) {
+					System.out.println("1. First Name" + "[" + orignal[0] + "]");
+					System.out.println("2. Last Name" + "[" + orignal[1] + "]");
+					System.out.println("3. Phone" + "[" + orignal[2] + "]");
+					System.out.println("4. Email" + "[" + orignal[3] + "]");
+					System.out.println("5. Registration Date" + "[" + orignal[4] + "]");
+					System.out.println("6. Status of subscription" + "[" + orignal[5] + "]");
+					System.out.println("7. Monthly Subscription Fee" + "[" + orignal[6] + "]");
+					System.out.println("8. Exit update");
+					System.out.print("Enter your Choice: ");
+					choice = Main.input.nextInt();
+					Main.input.nextLine();
+					switch (choice) {
+					case 1:
+						System.out.print("Enter first name : ");
+						attr[choice - 1] = Main.input.nextLine();
+						break;
+					case 2:
+						System.out.print("Enter last name : ");
+						attr[choice - 1] = Main.input.next();
+						break;
+					case 3:
+						System.out.print("Enter phone: ");
+						attr[choice - 1] = Main.input.nextLine();
+						break;
+					case 4:
+						System.out.print("Enter email: ");
+						attr[choice - 1] = Main.input.nextLine();
+						break;
+					case 5:
+						System.out.print("Enter registration date: ");
+						attr[choice - 1] = Main.input.nextLine();
+						break;
+					case 6:
+						System.out.print("Enter status of subscription: ");
+						attr[choice - 1] = Main.input.nextLine();
+						break;
+					case 7:
+						System.out.print("Enter monthly subscription fee: ");
+						attr[choice - 1] = Main.input.nextLine();
+						break;
+					case 8:
+						done = true;
+						break;
+					default:
+						System.out.println("\nPlease enter a valid choice from 1 to 8");
+						break;
+					}
+				}
+
+				if (Arrays.equals(attr, orignal)) {
+					System.out.println("no updates made to User");
+					return;
+				}
+
+				UpdateQuery = String.format(UpdateQuery, attr[0], attr[1], attr[2], attr[3], attr[4], attr[5], attr[6],
+						userID);
+
+				DBConnect.statement.executeUpdate(UpdateQuery);
+
+				System.out.println("User Updated succesfully");
+
+			} else {
+				throw new Exception("Connection is null");
+			}
+		} catch (InputMismatchException e) {
+			System.out.println("Failure: " + e);
+			System.out.println("Please Try Again");
+			Main.input.nextLine();
+		} catch (SQLException e) {
+			System.out.print("Failure: " + e);
+		} finally {
+			DBConnect.connection.setAutoCommit(true);
+		}
+	}
+
+	public static void DeleteUserInfo() throws Exception {
+		try {
+			if (DBConnect.connection != null) {
+
+				// Take user ID as input
+				System.out.print("Enter user ID: ");
+				int userID = Main.input.nextInt();
+
+				String DeleteQuery = "DELETE FROM User WHERE UserID=%d;";
+				DeleteQuery = String.format(DeleteQuery, userID);
+
+				int res = DBConnect.statement.executeUpdate(DeleteQuery);
+
+				if (res >= 1)
+					System.out.println("User deleted succesfully");
+				else
+					System.out.println("0 rows affected, User ID does not exist");
+
+			} else {
+				throw new Exception("Connection is null");
+			}
+		} catch (InputMismatchException e) {
+			System.out.println("Failure: " + e);
+			System.out.println("Please Try Again");
+			Main.input.nextLine();
+		} catch (SQLException e) {
+			System.out.print("Failure: " + e);
+		} finally {
+			DBConnect.connection.setAutoCommit(true);
+		}
 	}
 
 	///////////////////////////////////////////////////////////////////////////
