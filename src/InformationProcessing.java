@@ -391,8 +391,6 @@ public class InformationProcessing {
 	/////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	
-	
 
 	public static void EnterArtistInfo() throws Exception {
 		try {
@@ -418,7 +416,6 @@ public class InformationProcessing {
 
 				// Take country as input
 				System.out.print("Enter Country: ");
-				Main.input.nextLine();
 				String country = Main.input.nextLine();
 
 				// Take Primary Genre as input
@@ -451,23 +448,94 @@ public class InformationProcessing {
 		
 	}
 
+	
+	///isuue all 5 columns not coming
 	public static void UpdateArtistInfo() throws Exception {
 		try {
 			if (DBConnect.connection != null) {
 
-				// Take Artist ID as input
-				System.out.print("Enter Artist ID: ");
+
+				// Take artist ID as input
+				System.out.print("Enter artist ID to Update: ");
 				int artistID = Main.input.nextInt();
-
-				// Take country as input
-				System.out.print("Enter Country: ");
-				String country = Main.input.next();
-
-				String UpdateQuery = "UPDATE Artist SET Country= '%s' WHERE ArtistID=%d;";
-				UpdateQuery = String.format(UpdateQuery, country, artistID);
-
+				
+			
+				String selectQuery = "SELECT ArtistID,ArtistName,Status,Type,Country,PrimaryGenre, MonthlyListeners FROM Artist WHERE ArtistID="+artistID+";";
+				selectQuery = String.format(selectQuery, artistID);
+				ResultSet result = DBConnect.statement.executeQuery(selectQuery);
+				
+				if (!result.isBeforeFirst() ) {    
+				    System.out.println("No artist id found \n"); return;
+				} 
+				
+			    ResultSetMetaData rsmd = result.getMetaData();
+				int nCols = rsmd.getColumnCount();
+				String[] attr = new String[nCols-1];
+				if (result.next()) {
+					for(int i = 2; i <= nCols; ++i)
+				          attr[i-2] = result.getString(i);
+				}
+				result.close();
+				
+				String[] orignal=Arrays.copyOf(attr, nCols-1);
+				
+				int choice;
+				String UpdateQuery = "UPDATE Artist SET ArtistName='%s',Status='%s',Type='%s',Country='%s',PrimaryGenre='%s',MonthlyListeners='%s' WHERE ArtistID=%d;";
+				boolean done = false;
+				while (!done) {
+					System.out.println("1. ArtistName"+"["+orignal[0]+"]");
+					System.out.println("2. Status"+"["+orignal[1]+"]");
+					System.out.println("3. Type"+"["+orignal[2]+"]");
+					System.out.println("4. Country"+"["+orignal[3]+"]");
+					System.out.println("5. PrimaryGenre"+"["+orignal[4]+"]");
+					System.out.println("6. MonthlyListeners"+"["+orignal[5]+"]");
+					System.out.println("7. Exit update");
+					System.out.print("Enter your Choice: ");
+					choice = Main.input.nextInt();
+					Main.input.nextLine();
+					switch(choice) {
+					case 1:
+						System.out.print("Enter Artist name : ");
+						attr[choice-1] = Main.input.nextLine();
+						break;
+					case 2:
+						System.out.print("Enter status : ");
+						attr[choice-1] = Main.input.next();
+						break;
+					case 3:
+						System.out.print("Enter Type: ");
+						attr[choice-1] = Main.input.nextLine();
+						break;
+					case 4:
+						System.out.print("Enter Country: ");
+						attr[choice-1] = Main.input.nextLine();
+						break;
+					case 5:
+						System.out.print("Enter PrimaryGenre: ");
+						attr[choice-1] = Main.input.nextLine();
+						break;
+					case 6:
+						System.out.print("Enter Monthly listeners: ");
+						attr[choice-1] = Main.input.nextLine();
+						break;
+					case 7:
+						done = true;
+						break;
+					default:
+						System.out.println("\nPlease enter a valid choice from 1 to 7");
+						break;
+					}
+				}
+				
+				if(Arrays.equals(attr, orignal))
+				{
+					System.out.println("no updates made to Artist");return;
+				}
+	
+				UpdateQuery = String.format(UpdateQuery, attr[0], attr[1], attr[2],attr[3],attr[4],attr[5],artistID);
+	
 				DBConnect.statement.executeUpdate(UpdateQuery);
-
+	
 				System.out.println("Artist Updated succesfully");
 			} else {
 				throw new Exception("Connection is null");
@@ -490,9 +558,13 @@ public class InformationProcessing {
 				String deleteQuery = "DELETE FROM Artist WHERE ArtistID=%d;";
 				deleteQuery = String.format(deleteQuery, artistID);
 
-				DBConnect.statement.executeUpdate(deleteQuery);
+				int res=DBConnect.statement.executeUpdate(deleteQuery);
+				
+				if(res>=1)
+					System.out.println("Artist deleted succesfully");
+				else
+					System.out.println("0 rows affected, Artist ID does not exist");
 
-				System.out.println("Artist Deleted succesfully");
 			} else {
 				throw new Exception("Connection is null");
 			}
@@ -506,7 +578,390 @@ public class InformationProcessing {
 			DBConnect.connection.setAutoCommit(true);
 		}
 	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////
 
+	
+	public static void EnterPodcastInfo() throws Exception {
+		try {
+			if (DBConnect.connection != null) {
+
+				// Take podcast ID as input
+				System.out.print("Enter podcast ID: ");
+				int podcastID = Main.input.nextInt();
+
+				// Take podcast Name as input
+				System.out.print("Enter podcast Name: ");
+				Main.input.nextLine();
+				String podcastName = Main.input.nextLine();
+
+				// Take language as input
+				System.out.print("Enter Language: ");
+				String language = Main.input.next();
+
+				// Take country as input
+				System.out.print("Enter country: ");
+				String country = Main.input.next();
+
+				// Take episodecount
+				System.out.print("Enter episodecount: ");
+				int episodecount = Main.input.nextInt();
+
+				// Take rating input
+				System.out.print("Enter rating: ");
+				Float rating = Main.input.nextFloat();
+				
+				// Take total sub input
+				System.out.print("Enter Total subscribers: ");
+				int totalsubscribers = Main.input.nextInt();
+				
+				//take fee per episode
+				System.out.print("Enter fee per episode: ");
+				Float feeperepisode = Main.input.nextFloat();
+				
+				String InsertQuery = "INSERT INTO Podcast (PodcastID, PodcastName, Language, Country, EpisodeCount, Rating, TotalSubscribers, FeePerEpisode) VALUES (%d, '%s', '%s', '%s', %d, %.1f,%d, %.2f);";
+				InsertQuery = String.format(InsertQuery, podcastID,podcastName,language,country,episodecount,rating,totalsubscribers,feeperepisode);
+
+				DBConnect.statement.executeUpdate(InsertQuery);
+
+				System.out.println("Podcast Inserted succesfully");
+			} else {
+				throw new Exception("Connection is null");
+			}
+		}catch (InputMismatchException e) {
+			System.out.println("Failure: " + e);
+			System.out.println("Please Try Again");
+			Main.input.nextLine();
+		}  catch (SQLException e) {
+			System.out.print("Failure: " + e);
+		} finally {
+			DBConnect.connection.setAutoCommit(true);
+		}
+	}
+	
+
+	public static void UpdatePodcastInfo() throws Exception {
+		try {
+			if (DBConnect.connection != null) {
+				
+				// Take Podcast ID as input
+				System.out.print("Enter Podcast ID to Update: ");
+				int podcastID = Main.input.nextInt();
+				
+			
+				String selectQuery = "SELECT PodcastID,PodcastName, Language, Country, EpisodeCount, Rating, TotalSubscribers, FeePerEpisode FROM Podcast WHERE PodcastID="+podcastID+";";
+				selectQuery = String.format(selectQuery, podcastID);
+				ResultSet result = DBConnect.statement.executeQuery(selectQuery);
+				
+				if (!result.isBeforeFirst() ) {    
+				    System.out.println("No podcast id found \n"); return;
+				} 
+				
+			    ResultSetMetaData rsmd = result.getMetaData();
+				int nCols = rsmd.getColumnCount();
+				String[] attr = new String[nCols-1];
+				if (result.next()) {
+					for(int i = 2; i <= nCols; ++i)
+				          attr[i-2] = result.getString(i);
+				}
+				result.close();
+				
+				String[] orignal=Arrays.copyOf(attr, nCols-1);
+				
+				int choice;
+				String UpdateQuery = "UPDATE Podcast SET PodcastName='%s', Language='%s', Country='%s', EpisodeCount='%s', Rating='%s', TotalSubscribers='%s', FeePerEpisode='%s' WHERE PodcastID=%d;";
+				boolean done = false;
+				while (!done) {
+					System.out.println("1. PodcastName"+"["+orignal[0]+"]");
+					System.out.println("2. Language"+"["+orignal[1]+"]");
+					System.out.println("3. country"+"["+orignal[2]+"]");
+					System.out.println("4. Episode count"+"["+orignal[3]+"]");
+					System.out.println("5. Rating"+"["+orignal[4]+"]");
+					System.out.println("6. Total Subscribers"+"["+orignal[5]+"]");
+					System.out.println("7. Fee per Episode"+"["+orignal[6]+"]");
+					System.out.println("8. Exit update");
+					System.out.print("Enter your Choice: ");
+					choice = Main.input.nextInt();
+					Main.input.nextLine();
+					switch(choice) {
+					case 1:
+						System.out.print("Enter podcast name : ");
+						attr[choice-1] = Main.input.nextLine();
+						break;
+					case 2:
+						System.out.print("Enter Language : ");
+						attr[choice-1] = Main.input.next();
+						break;
+					case 3:
+						System.out.print("Enter Country: ");
+						attr[choice-1] = Main.input.nextLine();
+						break;
+					case 4:
+						System.out.print("Enter Episode count: ");
+						attr[choice-1] = Main.input.nextLine();
+						break;
+					case 5:
+						System.out.print("Enter rating: ");
+						attr[choice-1] = Main.input.nextLine();
+						break;
+					case 6:
+						System.out.print("Enter Total Subscribers: ");
+						attr[choice-1] = Main.input.nextLine();
+						break;
+					case 7:
+						System.out.print("Enter Fee Per Episode: ");
+						attr[choice-1] = Main.input.nextLine();
+						break;
+					case 8:
+						done = true;
+						break;
+					default:
+						System.out.println("\nPlease enter a valid choice from 1 to 8");
+						break;
+					}
+				}
+				
+				if(Arrays.equals(attr, orignal))
+				{
+					System.out.println("no updates made to Podcast");return;
+				}
+	
+				UpdateQuery = String.format(UpdateQuery, attr[0], attr[1], attr[2],attr[3],attr[4],attr[5],attr[6],podcastID);
+	
+				DBConnect.statement.executeUpdate(UpdateQuery);
+	
+				System.out.println("podcast Updated succesfully");
+				
+			
+			
+			} else {
+				throw new Exception("Connection is null");
+			}
+		}catch (InputMismatchException e) {
+			System.out.println("Failure: " + e);
+			System.out.println("Please Try Again");
+			Main.input.nextLine();
+		}  catch (SQLException e) {
+			System.out.print("Failure: " + e);
+		} finally {
+			DBConnect.connection.setAutoCommit(true);
+		}
+	}
+	
+	
+	public static void DeletePodcastInfo() throws Exception {
+		try {
+			if (DBConnect.connection != null) {
+
+				// Take podcast ID as input
+				System.out.print("Enter podcast ID: ");
+				int podcastID = Main.input.nextInt();
+
+
+				String DeleteQuery = "DELETE FROM Podcast WHERE PodcastID=%d;";
+				DeleteQuery = String.format(DeleteQuery, podcastID);
+
+				int res=DBConnect.statement.executeUpdate(DeleteQuery);
+				
+				if(res>=1)
+					System.out.println("podcast deleted succesfully");
+				else
+					System.out.println("0 rows affected, podcast ID does not exist");
+				
+			} else {
+				throw new Exception("Connection is null");
+			}
+		}catch (InputMismatchException e) {
+			System.out.println("Failure: " + e);
+			System.out.println("Please Try Again");
+			Main.input.nextLine();
+		}  catch (SQLException e) {
+			System.out.print("Failure: " + e);
+		} finally {
+			DBConnect.connection.setAutoCommit(true);
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////
+	
+	
+	public static void EnterPodcastEpisodeInfo() throws Exception {
+		try {
+			if (DBConnect.connection != null) {
+
+				// Take Episode ID as input
+				System.out.print("Enter Episode ID: ");
+				int episodeID = Main.input.nextInt();
+
+				// Take Episode title Name as input
+				System.out.print("Enter Title: ");
+				Main.input.nextLine();
+				String episodeTitle = Main.input.nextLine();
+
+				// Take PodcastID as input
+				System.out.print("Enter PodcastId: ");
+				int podcastID = Main.input.nextInt();
+
+				// Take Duration as input
+				System.out.print("Enter Duration: ");
+				int Duration = Main.input.nextInt();
+
+				// Take release date as input
+				System.out.print("Enter Release Date: ");
+				String releasedate = Main.input.next();
+
+				// Take listening count as input
+				System.out.print("Enter Listening Count: ");
+				int listeningCount = Main.input.nextInt();
+
+				// Take Advertisement count as input
+				System.out.print("Enter Advertisement Count: ");
+				int AdvertisementCount = Main.input.nextInt();
+
+				String InsertQuery = "INSERT INTO PodcastEpisode (EpisodeID, EpisodeTitle, PodcastID, Duration, ReleaseDate, ListeningCount, AdvertisementCount) VALUES (%d, '%s', %d, %d, '%s', %d, %d);";
+				InsertQuery = String.format(InsertQuery, episodeID, episodeTitle, podcastID, Duration, releasedate,
+						listeningCount, AdvertisementCount);
+
+				DBConnect.statement.executeUpdate(InsertQuery);
+
+				System.out.println("Podcast Episode Inserted succesfully");
+			} else {
+				throw new Exception("Connection is null");
+			}
+		} catch (SQLException e) {
+			System.out.print("Failure: " + e);
+		} finally {
+			DBConnect.connection.setAutoCommit(true);
+		}
+	}
+
+	public static void UpdatePodcastEpisodeInfo() throws Exception {
+		try {
+if (DBConnect.connection != null) {
+				
+				// Take Podcast episode ID as input
+				System.out.print("Enter Podcast Episode ID to Update: ");
+				int podcastEpisodeID = Main.input.nextInt();
+				
+			
+				String selectQuery = "SELECT EpisodeID, EpisodeTitle, PodcastID, Duration, ReleaseDate, ListeningCount, AdvertisementCount FROM PodcastEpisode WHERE EpisodeID="+podcastEpisodeID+";";
+				selectQuery = String.format(selectQuery, podcastEpisodeID);
+				ResultSet result = DBConnect.statement.executeQuery(selectQuery);
+				
+				if (!result.isBeforeFirst() ) {    
+				    System.out.println("No podcast episode id found \n"); return;
+				} 
+				
+			    ResultSetMetaData rsmd = result.getMetaData();
+				int nCols = rsmd.getColumnCount();
+				String[] attr = new String[nCols-1];
+				if (result.next()) {
+					for(int i = 2; i <= nCols; ++i)
+				          attr[i-2] = result.getString(i);
+				}
+				result.close();
+				
+				String[] orignal=Arrays.copyOf(attr, nCols-1);
+				
+				int choice;
+				String UpdateQuery = "UPDATE PodcastEpisode SET EpisodeTitle='%s', PodcastID='%s', Duration='%s', ReleaseDate='%s', ListeningCount='%s', AdvertisementCount='%s' WHERE EpisodeID=%d;";
+				boolean done = false;
+				while (!done) {
+					System.out.println("1. Episode Title"+"["+orignal[0]+"]");
+					System.out.println("2. PodcastID"+"["+orignal[1]+"]");
+					System.out.println("3. Duration"+"["+orignal[2]+"]");
+					System.out.println("4. Release Date"+"["+orignal[3]+"]");
+					System.out.println("5. Listening Count"+"["+orignal[4]+"]");
+					System.out.println("6. AdvertisementCount"+"["+orignal[5]+"]");
+					System.out.println("7. Exit update");
+					System.out.print("Enter your Choice: ");
+					choice = Main.input.nextInt();
+					Main.input.nextLine();
+					switch(choice) {
+					case 1:
+						System.out.print("Enter podcast episode title : ");
+						attr[choice-1] = Main.input.nextLine();
+						break;
+					case 2:
+						System.out.print("Enter PodcastID : ");
+						attr[choice-1] = Main.input.next();
+						break;
+					case 3:
+						System.out.print("Enter Duration: ");
+						attr[choice-1] = Main.input.nextLine();
+						break;
+					case 4:
+						System.out.print("Enter ReleaseDate: ");
+						attr[choice-1] = Main.input.nextLine();
+						break;
+					case 5:
+						System.out.print("Enter Listening count: ");
+						attr[choice-1] = Main.input.nextLine();
+						break;
+					case 6:
+						System.out.print("Enter Adverstisment count: ");
+						attr[choice-1] = Main.input.nextLine();
+						break;
+					case 7:
+						done = true;
+						break;
+					default:
+						System.out.println("\nPlease enter a valid choice from 1 to 7");
+						break;
+					}
+				}
+				
+				if(Arrays.equals(attr, orignal))
+				{
+					System.out.println("no updates made to Podcast Episode");return;
+				}
+	
+				UpdateQuery = String.format(UpdateQuery, attr[0], attr[1], attr[2],attr[3],attr[4],attr[5],podcastEpisodeID);
+	
+				DBConnect.statement.executeUpdate(UpdateQuery);
+	
+				System.out.println("Podcast Episode Updated succesfully");
+				
+			} else {
+				throw new Exception("Connection is null");
+			}
+		} catch (SQLException e) {
+			System.out.print("Failure: " + e);
+		} finally {
+			DBConnect.connection.setAutoCommit(true);
+		}
+	}
+
+	public static void DeletePodcastEpisodeInfo() throws Exception {
+		try {
+			if (DBConnect.connection != null) {
+
+				// Take Episode ID as input
+				System.out.print("Enter Episode ID: ");
+				int episodeID = Main.input.nextInt();
+
+				String DeleteQuery = "DELETE FROM PodcastEpisode WHERE EpisodeID=%d;";
+				DeleteQuery = String.format(DeleteQuery, episodeID);
+
+				int res=DBConnect.statement.executeUpdate(DeleteQuery);
+
+				if(res>=1)
+					System.out.println("podcast deleted succesfully");
+				else
+					System.out.println("0 rows affected, podcast ID does not exist");
+			} else {
+				throw new Exception("Connection is null");
+			}
+		} catch (SQLException e) {
+			System.out.print("Failure: " + e);
+		} finally {
+			DBConnect.connection.setAutoCommit(true);
+		}
+	}
+	
+/////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	public static void EnterPodcastHostInfo() throws Exception {
 		try {
 			if (DBConnect.connection != null) {
@@ -580,15 +1035,17 @@ public class InformationProcessing {
 				}
 				result.close();
 				
+				String[] orignal=Arrays.copyOf(attr, nCols-1);
+				
 				int choice;
 				String UpdateQuery = "UPDATE PodcastHost SET FirstName= '%s', LastName= '%s', Phone= '%s', Email= '%s', City= '%s' WHERE HostID=%d;";
 				boolean done = false;
 				while (!done) {
-					System.out.println("1. FirstName");
-					System.out.println("2. LastName");
-					System.out.println("3. Phone");
-					System.out.println("4. Email");
-					System.out.println("5. City");
+					System.out.println("1. FirstName"+"["+orignal[0]+"]");
+					System.out.println("2. LastName"+"["+orignal[1]+"]");
+					System.out.println("3. Phone"+"["+orignal[2]+"]");
+					System.out.println("4. Email"+"["+orignal[3]+"]");
+					System.out.println("5. City"+"["+orignal[4]+"]");
 					System.out.println("6. Exit update");
 					System.out.print("Enter your Choice: ");
 					choice = Main.input.nextInt();
@@ -649,9 +1106,13 @@ public class InformationProcessing {
 				String DeleteQuery = "DELETE FROM PodcastHost WHERE HostID=%d;";
 				DeleteQuery = String.format(DeleteQuery, hostID);
 
-				DBConnect.statement.executeUpdate(DeleteQuery);
+				int res=DBConnect.statement.executeUpdate(DeleteQuery);
+				
+				if(res>=1)
+					System.out.println("podcast host deleted succesfully");
+				else
+					System.out.println("0 rows affected, podcast host ID does not exist");
 
-				System.out.println("Podcast Host Deleted succesfully");
 			} else {
 				throw new Exception("Connection is null");
 			}
@@ -662,106 +1123,7 @@ public class InformationProcessing {
 		}
 	}
 
-	public static void EnterPodcastEpisodeInfo() throws Exception {
-		try {
-			if (DBConnect.connection != null) {
-
-				// Take Episode ID as input
-				System.out.print("Enter Episode ID: ");
-				int episodeID = Main.input.nextInt();
-
-				// Take Episode title Name as input
-				System.out.print("Enter Title: ");
-				String episodeTitle = Main.input.next();
-
-				// Take PodcastID as input
-				System.out.print("Enter PodcastId: ");
-				int podcastID = Main.input.nextInt();
-
-				// Take Duration as input
-				System.out.print("Enter Duration: ");
-				int Duration = Main.input.nextInt();
-
-				// Take release date as input
-				System.out.print("Enter Release Date: ");
-				String releasedate = Main.input.next();
-
-				// Take listening count as input
-				System.out.print("Enter Listening Count: ");
-				int listeningCount = Main.input.nextInt();
-
-				// Take Advertisement count as input
-				System.out.print("Enter Advertisement Count: ");
-				int AdvertisementCount = Main.input.nextInt();
-
-				String InsertQuery = "INSERT INTO PodcastEpisode (EpisodeID, EpisodeTitle, PodcastID, Duration, ReleaseDate, ListeningCount, AdvertisementCount) VALUES (%d, '%s', %d, %d, '%s', %d, %d);";
-				InsertQuery = String.format(InsertQuery, episodeID, episodeTitle, podcastID, Duration, releasedate,
-						listeningCount, AdvertisementCount);
-
-				DBConnect.statement.executeUpdate(InsertQuery);
-
-				System.out.println("Podcast Episode Inserted succesfully");
-			} else {
-				throw new Exception("Connection is null");
-			}
-		} catch (SQLException e) {
-			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
-	}
-
-	public static void UpdatePodcastEpisodeInfo() throws Exception {
-		try {
-			if (DBConnect.connection != null) {
-
-				// Take Episode ID as input
-				System.out.print("Enter Episode ID: ");
-				int episodeID = Main.input.nextInt();
-
-				// Take Duration as input
-				System.out.print("Enter Duration: ");
-				int Duration = Main.input.nextInt();
-
-				String UpdateQuery = "UPDATE PodcastEpisode SET Duration=%d WHERE EpisodeID=%d;";
-				UpdateQuery = String.format(UpdateQuery, Duration, episodeID);
-
-				DBConnect.statement.executeUpdate(UpdateQuery);
-
-				System.out.println("Podcast Episode Updated succesfully");
-			} else {
-				throw new Exception("Connection is null");
-			}
-		} catch (SQLException e) {
-			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
-	}
-
-	public static void DeletePodcastEpisodeInfo() throws Exception {
-		try {
-			if (DBConnect.connection != null) {
-
-				// Take Episode ID as input
-				System.out.print("Enter Episode ID: ");
-				int episodeID = Main.input.nextInt();
-
-				String DeleteQuery = "DELETE FROM PodcastEpisode WHERE EpisodeID=%d;";
-				DeleteQuery = String.format(DeleteQuery, episodeID);
-
-				DBConnect.statement.executeUpdate(DeleteQuery);
-
-				System.out.println("Podcast Episode Deleted succesfully");
-			} else {
-				throw new Exception("Connection is null");
-			}
-		} catch (SQLException e) {
-			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
-	}
+	///////////////////////////////////////////////////////////////////////////
 
 	public static void AssignSongsToArtists() throws Exception {
 		try {
@@ -917,204 +1279,5 @@ public class InformationProcessing {
 	
 	
 	
-	public static void EnterPodcastInfo() throws Exception {
-		try {
-			if (DBConnect.connection != null) {
-
-				// Take podcast ID as input
-				System.out.print("Enter podcast ID: ");
-				int podcastID = Main.input.nextInt();
-
-				// Take podcast Name as input
-				System.out.print("Enter podcast Name: ");
-				Main.input.nextLine();
-				String podcastName = Main.input.nextLine();
-
-				// Take language as input
-				System.out.print("Enter Language: ");
-				String language = Main.input.next();
-
-				// Take country as input
-				System.out.print("Enter country: ");
-				String country = Main.input.next();
-
-				// Take episodecount
-				System.out.print("Enter episodecount: ");
-				int episodecount = Main.input.nextInt();
-
-				// Take rating input
-				System.out.print("Enter rating: ");
-				Float rating = Main.input.nextFloat();
-				
-				// Take todtal sub input
-				System.out.print("Enter Total subscribers: ");
-				int totalsubscribers = Main.input.nextInt();
-				
-				//take fee per episode
-				System.out.print("Enter fee per episode: ");
-				Float feeperepisode = Main.input.nextFloat();
-
-				
-				
-				//check this 
-				
-				
-				
-				String InsertQuery = "INSERT INTO Podcast (PodcastID, PodcastName, Language, Country, EpisodeCount, Rating, TotalSubscribers, FeePerEpisode) VALUES (%d, '%s', '%s', '%s', %d, %.1f, %d, %.2f);";
-				InsertQuery = String.format(InsertQuery, podcastID,podcastName,language,country,episodecount,rating,totalsubscribers,feeperepisode);
-
-				DBConnect.statement.executeUpdate(InsertQuery);
-
-				System.out.println("Podcast Inserted succesfully");
-			} else {
-				throw new Exception("Connection is null");
-			}
-		}catch (InputMismatchException e) {
-			System.out.println("Failure: " + e);
-			System.out.println("Please Try Again");
-			Main.input.nextLine();
-		}  catch (SQLException e) {
-			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
-	}
-	
-
-	public static void UpdatePodcastInfo() throws Exception {
-		try {
-			if (DBConnect.connection != null) {
-				
-			
-			
-			} else {
-				throw new Exception("Connection is null");
-			}
-		}catch (InputMismatchException e) {
-			System.out.println("Failure: " + e);
-			System.out.println("Please Try Again");
-			Main.input.nextLine();
-		}  catch (SQLException e) {
-			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
-	}
-	
-	
-	public static void DeletePodcastInfo() throws Exception {
-		try {
-			if (DBConnect.connection != null) {
-
-				// Take podcast ID as input
-				System.out.print("Enter podcast ID: ");
-				int podcastID = Main.input.nextInt();
-
-
-				String DeleteQuery = "DELETE FROM Podcast WHERE PodcastID=%d;";
-				DeleteQuery = String.format(DeleteQuery, podcastID);
-
-				int res=DBConnect.statement.executeUpdate(DeleteQuery);
-				
-				if(res>=1)
-					System.out.println("podcast deleted succesfully");
-				else
-					System.out.println("0 rows affected, podcast ID does not exist");
-				
-			} else {
-				throw new Exception("Connection is null");
-			}
-		}catch (InputMismatchException e) {
-			System.out.println("Failure: " + e);
-			System.out.println("Please Try Again");
-			Main.input.nextLine();
-		}  catch (SQLException e) {
-			System.out.print("Failure: " + e);
-		} finally {
-			DBConnect.connection.setAutoCommit(true);
-		}
-	}
-	
-	
-	
-	
-	
-	
-//	public static void UpdatePodcastHostInfo() throws Exception {
-//	try {
-//		if (DBConnect.connection != null) {
-//			// Take Host ID as input
-//			System.out.print("Enter Host ID: ");
-//			int hostID = Main.input.nextInt();
-//
-//			String selectQuery = "SELECT * FROM PodcastHost WHERE HostID=%d;";
-//			selectQuery = String.format(selectQuery, hostID);
-//			ResultSet result = DBConnect.statement.executeQuery(selectQuery);
-//		    ResultSetMetaData rsmd = result.getMetaData();
-//			int nCols = rsmd.getColumnCount();
-//			String[] attr = new String[nCols-1];
-//			if (result.next()) {
-//				for(int i = 2; i <= nCols; ++i)
-//			          attr[i-2] = result.getString(i);
-//			}
-//			result.close();
-//			
-//			int choice;
-//			String UpdateQuery = "UPDATE PodcastHost SET FirstName= '%s', LastName= '%s', Phone= '%s', Email= '%s', City= '%s' WHERE HostID=%d;";
-//			boolean done = false;
-//			while (!done) {
-//				System.out.println("1. FirstName");
-//				System.out.println("2. LastName");
-//				System.out.println("3. Phone");
-//				System.out.println("4. Email");
-//				System.out.println("5. City");
-//				System.out.println("6. Exit update");
-//				System.out.print("Enter your Choice: ");
-//				choice = Main.input.nextInt();
-//				switch(choice) {
-//				case 1:
-//					System.out.print("Enter first name: ");
-//					attr[choice-1] = Main.input.next();
-//					break;
-//				case 2:
-//					System.out.print("Enter last name: ");
-//					attr[choice-1] = Main.input.next();
-//					break;
-//				case 3:
-//					System.out.print("Enter phone: ");
-//					attr[choice-1] = Main.input.next();
-//					break;
-//				case 4:
-//					System.out.print("Enter email: ");
-//					attr[choice-1] = Main.input.next();
-//					break;
-//				case 5:
-//					System.out.print("Enter city: ");
-//					attr[choice-1] = Main.input.next();
-//					break;
-//				case 6:
-//					done = true;
-//					break;
-//				default:
-//					System.out.println("\nPlease enter a valid choice from 1 to 6");
-//					break;
-//				}
-//			}
-//
-//			UpdateQuery = String.format(UpdateQuery, attr[0], attr[1], attr[2], attr[3], attr[4], hostID);
-//
-//			DBConnect.statement.executeUpdate(UpdateQuery);
-//
-//			System.out.println("Podcast Host Updated succesfully");
-//			
-//		} else {
-//			throw new Exception("Connection is null");
-//		}
-//	} catch (SQLException e) {
-//		System.out.print("Failure: " + e);
-//	} finally {
-//		DBConnect.connection.setAutoCommit(true);
-//	}
-//}
 
 }
