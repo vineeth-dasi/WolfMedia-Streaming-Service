@@ -1117,6 +1117,69 @@ public class InformationProcessing {
 			DBConnect.connection.setAutoCommit(true);
 		}
 	}
+	
+	/////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void EnterUserInfo() throws Exception {
+		try {
+			if (DBConnect.connection != null) {
+
+				// Take User ID as input
+				System.out.print("Enter User ID: ");
+				int userID = Main.input.nextInt();
+
+				// Take user first name as input
+				System.out.print("Enter User first name: ");
+				Main.input.nextLine();
+				String userFirstName = Main.input.nextLine();
+				
+				// Take user last name as input
+				System.out.print("Enter User last name: ");
+				Main.input.nextLine();
+				String userlastName = Main.input.next();
+
+				// Take phone as input
+				System.out.print("Enter Phone: ");
+				String phone = Main.input.next();
+
+				// Take email as input
+				System.out.print("Enter email: ");
+				Main.input.nextLine();
+				String email = Main.input.nextLine();
+
+				// Take registration date as input
+				System.out.print("Enter Country: ");
+				String registrationDate = Main.input.nextLine();
+
+				// Take StatusOfSubscription as input
+				System.out.print("Enter Status Of Subscription: ");
+				String statusOfSubscription = Main.input.next();
+
+				// Take monthly subscription fee as input
+				System.out.print("Enter monthly subscription fee: ");
+				String monthlySubscriptionFee = Main.input.next();
+
+				String InsertQuery = "INSERT INTO User (UserID, FirstName, LastName, Phone, Email, RegistrationDate, StatusOfSubscription, MonthlySubscriptionFee) VALUES (%d, '%s', '%s', '%s', '%s', %d, %d);";
+				InsertQuery = String.format(InsertQuery, userID, userFirstName, userlastName, phone, email, registrationDate,
+						statusOfSubscription, monthlySubscriptionFee);
+
+				DBConnect.statement.executeUpdate(InsertQuery);
+
+				System.out.println("User Inserted succesfully");
+			} else {
+				throw new Exception("Connection is null");
+			}
+		} catch (InputMismatchException e) {
+			System.out.println("Failure: " + e);
+			System.out.println("Please Try Again");
+			Main.input.nextLine();
+		} catch (SQLException e) {
+			System.out.print("Failure: " + e);
+		} finally {
+			DBConnect.connection.setAutoCommit(true);
+		}
+
+	}
 
 	///////////////////////////////////////////////////////////////////////////
 
@@ -1178,12 +1241,6 @@ public class InformationProcessing {
 				System.out.print("Enter label name: ");
 				Main.input.nextLine();
 				String labelname = Main.input.nextLine();
-
-				// default values dates
-				// return;
-
-				// delte
-				// sinsert tranacaston
 
 				String InsertQuery = "INSERT INTO Contract (ArtistID, StartDate, EndDate, LabelName) VALUES (%d, '%s', '%s', '%s');";
 				InsertQuery = String.format(InsertQuery, artistID, startdate, enddate, labelname);
