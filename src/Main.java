@@ -267,12 +267,15 @@ public class Main {
 						System.out.println("4. Total payments made out to host per a given time period");
 						System.out.println("5. Total payments made out to artist per a given time period");
 						System.out.println("6. Total payments made out to record labels per a given time period");
-						System.out.println("7. Total revenue of the streaming service per month");
-						System.out.println("8. Total revenue of the streaming service per year");
-						System.out.println("9. Report all songs given an artist");
-						System.out.println("10. Report all songs given an album");
-						System.out.println("11. Report all podcast episodes given a podcast");
-						System.out.println("12. Return to main menu");
+						System.out.println("7. Payments made out to host per month for a given time period");
+						System.out.println("8. Payments made out to artist per month for a given time period");
+						System.out.println("9. Payments made out to record labels per month for a given time period");
+						System.out.println("10. Total revenue of the streaming service per month");
+						System.out.println("11. Total revenue of the streaming service per year");
+						System.out.println("12. Report all songs given an artist");
+						System.out.println("13. Report all songs given an album");
+						System.out.println("14. Report all podcast episodes given a podcast");
+						System.out.println("15. Return to main menu");
 						System.out.print("Enter your Choice: ");
 						choice = input.nextInt();
 						if (choice == 1) {
@@ -288,16 +291,22 @@ public class Main {
 						} else if (choice == 6) {
 							ReportGeneration.calculateTotalPaymentsToRecordLabel();
 						} else if (choice == 7) {
-							ReportGeneration.calculateTotalRevenuePerMonth();
+							ReportGeneration.calculatePaymentsToHostPerMonth();
 						} else if (choice == 8) {
-							ReportGeneration.calculateTotalRevenuePerYear();
+							ReportGeneration.calculatePaymentsToArtistPerMonth();
 						} else if (choice == 9) {
-							ReportGeneration.findSongsWithArtist();
+							ReportGeneration.calculatePaymentsToRecordLabelPerMonth();
 						} else if (choice == 10) {
-							ReportGeneration.findSongsInAlbum();
+							ReportGeneration.calculateTotalRevenuePerMonth();
 						} else if (choice == 11) {
-							ReportGeneration.findEpisodesInPodcast();
+							ReportGeneration.calculateTotalRevenuePerYear();
 						} else if (choice == 12) {
+							ReportGeneration.findSongsWithArtist();
+						} else if (choice == 13) {
+							ReportGeneration.findSongsInAlbum();
+						} else if (choice == 14) {
+							ReportGeneration.findEpisodesInPodcast();
+						} else if (choice == 15) {
 							break;
 						} else {
 							System.out.println("\nPlease enter a valid choice from 1 to 12");

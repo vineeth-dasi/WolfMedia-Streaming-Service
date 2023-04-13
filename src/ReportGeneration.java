@@ -53,6 +53,21 @@ public class ReportGeneration {
 		showResults(sql);
 	}
 	
+//	Payments made out to host per month for a given time period
+	public static void calculatePaymentsToHostPerMonth() {
+		String sql = "SELECT HostID, YearMonth, Payment as Payment FROM PodcastPayments WHERE YearMonth BETWEEN '%s' AND '%s' GROUP BY HostID, YearMonth;";
+
+//		Take start of time period as input
+		System.out.print("Enter start of time period in the format YYYY-MM: ");
+		String startMonth = Main.input.next();
+		
+//		Take end of time period as input
+		System.out.print("Enter end of time period in the format YYYY-MM: ");
+		String endMonth = Main.input.next();
+		sql = String.format(sql, startMonth, endMonth);
+		showResults(sql);
+	}
+	
 //	Total payments made out to host per a given time period
 	public static void calculateTotalPaymentsToArtist() {
 		String sql = "SELECT a.ArtistID, a.ArtistName, FORMAT(SUM(rp.Payment * 0.7 / num_artists), 2) AS TotalPayment FROM Artist a "
@@ -62,6 +77,27 @@ public class ReportGeneration {
 				+ "JOIN (SELECT pb.SongID, COUNT(DISTINCT pb.ArtistID) AS num_artists FROM PerformedBy pb "
 				+ "GROUP BY pb.SongID) AS cnt ON pb.SongID = cnt.SongID "
 				+ "WHERE rp.YearMonth BETWEEN '%s' AND '%s' AND rp.PaidStatus = 'true' GROUP BY a.ArtistID, a.ArtistName;";
+	
+//		Take start of time period as input
+		System.out.print("Enter start of time period in the format YYYY-MM: ");
+		String startMonth = Main.input.next();
+		
+//		Take end of time period as input
+		System.out.print("Enter end of time period in the format YYYY-MM: ");
+		String endMonth = Main.input.next();
+		sql = String.format(sql, startMonth, endMonth);
+		showResults(sql);
+	}
+	
+//	Payments made out to host per month a given time period
+	public static void calculatePaymentsToArtistPerMonth() {
+		String sql = "SELECT a.ArtistID, a.ArtistName, rp.YearMonth, SUM(FORMAT(rp.Payment * 0.7 / num_artists, 2)) AS TotalPayment FROM Artist a "
+				+ "JOIN PerformedBy pb ON a.ArtistID = pb.ArtistID "
+				+ "JOIN Song s ON pb.SongID = s.SongID "
+				+ "JOIN RoyaltyPayments rp ON s.SongID = rp.SongID "
+				+ "JOIN (SELECT pb.SongID, COUNT(DISTINCT pb.ArtistID) AS num_artists FROM PerformedBy pb "
+				+ "GROUP BY pb.SongID) AS cnt ON pb.SongID = cnt.SongID "
+				+ "WHERE rp.YearMonth BETWEEN '%s' AND '%s' AND rp.PaidStatus = 'true' GROUP BY a.ArtistID, a.ArtistName, rp.YearMonth;";
 	
 //		Take start of time period as input
 		System.out.print("Enter start of time period in the format YYYY-MM: ");
@@ -84,6 +120,28 @@ public class ReportGeneration {
 				+ "INNER JOIN Song s ON s.SongID = pb.SongID "
 				+ "WHERE (rp.YearMonth BETWEEN '%s' AND '%s') AND rp.PaidStatus= 'true' AND (s.ReleaseDate BETWEEN c.StartDate AND c.EndDate) "
 				+ "GROUP BY r.LabelName;";
+	
+//		Take start of time period as input
+		System.out.print("Enter start of time period in the format YYYY-MM: ");
+		String startMonth = Main.input.next();
+		
+//		Take end of time period as input
+		System.out.print("Enter end of time period in the format YYYY-MM: ");
+		String endMonth = Main.input.next();
+		sql = String.format(sql, startMonth, endMonth);
+		showResults(sql);
+	}
+	
+//	Total payments made out to record label per month in a given time period
+	public static void calculatePaymentsToRecordLabelPerMonth() {
+		String sql = "SELECT r.LabelName, rp.YearMonth, SUM(FORMAT(rp.Payment*0.3,2)) AS TotalPayments "
+				+ "FROM RoyaltyPayments rp "
+				+ "INNER JOIN (SELECT DISTINCT SongID, ArtistID FROM PerformedBy WHERE MainArtistStatus = 'true') pb ON rp.SongID = pb.SongID "
+				+ "INNER JOIN Contract c ON pb.ArtistID = c.ArtistID "
+				+ "INNER JOIN RecordLabel r ON c.LabelName = r.LabelName "
+				+ "INNER JOIN Song s ON s.SongID = pb.SongID "
+				+ "WHERE (rp.YearMonth BETWEEN '%s' AND '%s') AND rp.PaidStatus= 'true' AND (s.ReleaseDate BETWEEN c.StartDate AND c.EndDate) "
+				+ "GROUP BY r.LabelName, rp.YearMonth;";
 	
 //		Take start of time period as input
 		System.out.print("Enter start of time period in the format YYYY-MM: ");
