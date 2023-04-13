@@ -944,7 +944,8 @@ public class InformationProcessing {
 
 				// Take city as input
 				System.out.print("Enter city: ");
-				String city = Main.input.next();
+				Main.input.nextLine();
+				String city = Main.input.nextLine();
 
 				String InsertQuery = "INSERT INTO PodcastHost (HostID, FirstName, LastName, Phone, Email, City) VALUES (%d, '%s', '%s', '%s', '%s', '%s');";
 				InsertQuery = String.format(InsertQuery, hostID, firstName, lastName, phone, email, city);
@@ -1023,7 +1024,8 @@ public class InformationProcessing {
 						break;
 					case 5:
 						System.out.print("Enter city: ");
-						attr[choice - 1] = Main.input.next();
+						Main.input.nextLine();
+						attr[choice - 1] = Main.input.nextLine();
 						break;
 					case 6:
 						done = true;
