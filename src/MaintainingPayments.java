@@ -163,7 +163,7 @@ public class MaintainingPayments {
         }
 	}
 	
-	public static void generatePaymnets() throws Exception{
+	public static void generatePayments() throws Exception{
 		System.out.println("Generating Royalty Payments....");
 		generateRoyaltyPayments();
 		System.out.println("Generating Podcast Payments....");

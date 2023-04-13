@@ -314,7 +314,7 @@ public class Main {
 					}
 
 				} else if (choice == 5) {
-//					MaintainingPayments.generatePaymnets();
+					MaintainingPayments.generatePayments();
 				} else if (choice == 6) {
 					break;
 				} else {
