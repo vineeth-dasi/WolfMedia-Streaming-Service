@@ -78,11 +78,11 @@ public class Main {
 								System.out.print("Enter your Choice: ");
 								choice = input.nextInt();
 								if (choice == 1) {
-
+									InformationProcessing.EnterAlbumInfo();
 								} else if (choice == 2) {
-
+									InformationProcessing.UpdateAlbumInfo();
 								} else if (choice == 3) {
-
+									InformationProcessing.DeleteAlbumInfo();
 								} else if (choice == 4) {
 									break;
 								} else {
@@ -101,11 +101,11 @@ public class Main {
 								System.out.print("Enter your Choice: ");
 								choice = input.nextInt();
 								if (choice == 1) {
-
+									InformationProcessing.EnterArtistInfo();
 								} else if (choice == 2) {
-
+									InformationProcessing.UpdateArtistInfo();
 								} else if (choice == 3) {
-
+									InformationProcessing.DeleteArtistInfo();
 								} else if (choice == 4) {
 									break;
 								} else {
@@ -124,11 +124,11 @@ public class Main {
 								System.out.print("Enter your Choice: ");
 								choice = input.nextInt();
 								if (choice == 1) {
-
+									InformationProcessing.EnterPodcastInfo();
 								} else if (choice == 2) {
-
+									InformationProcessing.UpdatePodcastInfo();
 								} else if (choice == 3) {
-
+									InformationProcessing.DeletePodcastInfo();
 								} else if (choice == 4) {
 									break;
 								} else {
@@ -147,11 +147,11 @@ public class Main {
 								System.out.print("Enter your Choice: ");
 								choice = input.nextInt();
 								if (choice == 1) {
-
+									InformationProcessing.EnterPodcastEpisodeInfo();
 								} else if (choice == 2) {
-
+									InformationProcessing.UpdatePodcastEpisodeInfo();
 								} else if (choice == 3) {
-
+									InformationProcessing.DeletePodcastEpisodeInfo();
 								} else if (choice == 4) {
 									break;
 								} else {
@@ -170,11 +170,11 @@ public class Main {
 								System.out.print("Enter your Choice: ");
 								choice = input.nextInt();
 								if (choice == 1) {
-
+									InformationProcessing.EnterPodcastHostInfo();
 								} else if (choice == 2) {
-
+									InformationProcessing.UpdatePodcastHostInfo();
 								} else if (choice == 3) {
-
+									InformationProcessing.DeletePodcastHostInfo();
 								} else if (choice == 4) {
 									break;
 								} else {
@@ -182,11 +182,11 @@ public class Main {
 								}
 							}
 						} else if (choice == 7) {
-
+							InformationProcessing.AssignSongsToArtists();
 						} else if (choice == 8) {
-
+							InformationProcessing.AssignArtistToRecordLabel();
 						} else if (choice == 9) {
-
+							InformationProcessing.AssignPodcastHostToPodcast();
 						} else if (choice == 10) {
 							break;
 						} else {
