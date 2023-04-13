@@ -156,6 +156,19 @@ public class ReportGeneration {
 	
 //  Total revenue of the streaming service per month
 	public static void calculateTotalRevenuePerMonth() {
+		String sql = "SELECT YearMonth, SUM(payment) AS Revenue FROM SubscriptionPayments WHERE ReceivedStatus= 'true' GROUP BY YearMonth;";
+		showResults(sql);
+	}
+	
+//  Total revenue of the streaming service per year
+	public static void calculateTotalRevenuePerYear() {
+		String sql = "SELECT p.Year, COALESCE(p.payment, 0) AS Revenue "
+				+ "FROM (SELECT SUBSTRING(YearMonth, 1, 4) AS Year, SUM(payment) AS payment FROM SubscriptionPayments WHERE ReceivedStatus = 'true' GROUP BY Year) AS p;";
+		showResults(sql);
+	}
+	
+//  Total profit of the streaming service per month
+	public static void calculateTotalProfitPerMonth() {
 		String sql = "SELECT p.YearMonth, COALESCE(p.payment, 0) - COALESCE(i1.payment, 0) - COALESCE(i2.payment, 0) AS PaymentDiff "
 				+ "FROM (SELECT YearMonth, SUM(payment) AS payment FROM SubscriptionPayments WHERE ReceivedStatus= 'true' GROUP BY YearMonth) AS p "
 				+ "LEFT JOIN (SELECT YearMonth, SUM(payment) AS payment FROM RoyaltyPayments WHERE PaidStatus= 'true' GROUP BY YearMonth) AS i1 ON p.YearMonth = i1.YearMonth "
@@ -164,8 +177,8 @@ public class ReportGeneration {
 		showResults(sql);
 	}
 	
-//  Total revenue of the streaming service per year
-	public static void calculateTotalRevenuePerYear() {
+//  Total profit of the streaming service per year
+	public static void calculateTotalProfitPerYear() {
 		String sql = "SELECT p.Year, COALESCE(p.payment, 0) - COALESCE(i1.payment, 0) - COALESCE(i2.payment, 0) AS Revenue "
 				+ "FROM (SELECT SUBSTRING(YearMonth, 1, 4) AS Year, SUM(payment) AS payment FROM SubscriptionPayments WHERE ReceivedStatus = 'true' GROUP BY Year) AS p "
 				+ "LEFT JOIN (SELECT SUBSTRING(YearMonth, 1, 4) AS Year, SUM(payment) AS payment FROM RoyaltyPayments WHERE PaidStatus = 'true' GROUP BY Year) AS i1 ON p.Year = i1.Year "
