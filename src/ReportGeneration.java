@@ -68,7 +68,7 @@ public class ReportGeneration {
 		showResults(sql);
 	}
 	
-//	Total payments made out to host per a given time period
+//	Total payments made out to artist per a given time period
 	public static void calculateTotalPaymentsToArtist() {
 		String sql = "SELECT a.ArtistID, a.ArtistName, FORMAT(SUM(rp.Payment * 0.7 / num_artists), 2) AS TotalPayment FROM Artist a "
 				+ "JOIN PerformedBy pb ON a.ArtistID = pb.ArtistID "
@@ -89,9 +89,9 @@ public class ReportGeneration {
 		showResults(sql);
 	}
 	
-//	Payments made out to host per month a given time period
+//	Payments made out to artist per month a given time period
 	public static void calculatePaymentsToArtistPerMonth() {
-		String sql = "SELECT a.ArtistID, a.ArtistName, rp.YearMonth, SUM(FORMAT(rp.Payment * 0.7 / num_artists, 2)) AS TotalPayment FROM Artist a "
+		String sql = "SELECT a.ArtistID, a.ArtistName, rp.YearMonth, FORMAT(SUM(rp.Payment * 0.7 / num_artists), 2) AS TotalPayment FROM Artist a "
 				+ "JOIN PerformedBy pb ON a.ArtistID = pb.ArtistID "
 				+ "JOIN Song s ON pb.SongID = s.SongID "
 				+ "JOIN RoyaltyPayments rp ON s.SongID = rp.SongID "
@@ -134,7 +134,7 @@ public class ReportGeneration {
 	
 //	Total payments made out to record label per month in a given time period
 	public static void calculatePaymentsToRecordLabelPerMonth() {
-		String sql = "SELECT r.LabelName, rp.YearMonth, SUM(FORMAT(rp.Payment*0.3,2)) AS TotalPayments "
+		String sql = "SELECT r.LabelName, rp.YearMonth, FORMAT(SUM(rp.Payment*0.3),2) AS TotalPayments "
 				+ "FROM RoyaltyPayments rp "
 				+ "INNER JOIN (SELECT DISTINCT SongID, ArtistID FROM PerformedBy WHERE MainArtistStatus = 'true') pb ON rp.SongID = pb.SongID "
 				+ "INNER JOIN Contract c ON pb.ArtistID = c.ArtistID "
