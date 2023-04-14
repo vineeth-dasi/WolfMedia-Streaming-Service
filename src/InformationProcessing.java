@@ -1096,22 +1096,20 @@ public class InformationProcessing {
 
 				// Take user first name as input
 				System.out.print("Enter User first name: ");
-				Main.input.nextLine();
-				String userFirstName = Main.input.nextLine();
+				String userFirstName = Main.input.next();
 				
 				// Take user last name as input
 				System.out.print("Enter User last name: ");
-				Main.input.nextLine();
-				String userlastName = Main.input.nextLine();
+				String userlastName = Main.input.next();
 
 				// Take phone as input
 				System.out.print("Enter Phone: ");
-				String phone = Main.input.next();
+				Main.input.nextLine();
+				String phone = Main.input.nextLine();
 
 				// Take email as input
 				System.out.print("Enter email: ");
-				Main.input.nextLine();
-				String email = Main.input.nextLine();
+				String email = Main.input.next();
 
 				// Take registration date as input
 				System.out.print("Enter Registration date: ");
