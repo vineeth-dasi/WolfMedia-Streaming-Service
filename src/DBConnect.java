@@ -8,9 +8,9 @@ public class DBConnect {
 	public static Connection connection = null;
 	public static Statement statement = null;
 	// public static ResultSet result = null;
-	public static String url = "jdbc:mariadb://classdb2.csc.ncsu.edu:3306/sammana";
-	public static String user = "sammana";
-	public static String pswd = "200473958";
+	public static String url = "jdbc:mariadb://classdb2.csc.ncsu.edu:3306/vyalla";
+	public static String user = "vyalla";
+	public static String pswd = "200473920";
 
 	public static void EstablishConnection() throws SQLException 
 	{
