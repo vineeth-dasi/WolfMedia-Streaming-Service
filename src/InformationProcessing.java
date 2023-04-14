@@ -1172,7 +1172,7 @@ public class InformationProcessing {
 				String[] orignal = Arrays.copyOf(attr, nCols - 1);
 
 				int choice;
-				String UpdateQuery = "UPDATE Podcast SET FirstName='%s', LastName='%s', Phone='%s', Email='%s', RegistrationDate='%s', StatusOfSubscription='%s', MonthlySubscriptionFee='%f' WHERE UserID=%d;";
+				String UpdateQuery = "UPDATE User SET FirstName='%s', LastName='%s', Phone='%s', Email='%s', RegistrationDate='%s', StatusOfSubscription='%s', MonthlySubscriptionFee='%s' WHERE UserID=%d;";
 				boolean done = false;
 				while (!done) {
 					System.out.println("1. First Name" + "[" + orignal[0] + "]");
@@ -1189,7 +1189,7 @@ public class InformationProcessing {
 					switch (choice) {
 					case 1:
 						System.out.print("Enter first name : ");
-						attr[choice - 1] = Main.input.nextLine();
+						attr[choice - 1] = Main.input.next();
 						break;
 					case 2:
 						System.out.print("Enter last name : ");
@@ -1201,19 +1201,19 @@ public class InformationProcessing {
 						break;
 					case 4:
 						System.out.print("Enter email: ");
-						attr[choice - 1] = Main.input.nextLine();
+						attr[choice - 1] = Main.input.next();
 						break;
 					case 5:
 						System.out.print("Enter registration date: ");
-						attr[choice - 1] = Main.input.nextLine();
+						attr[choice - 1] = Main.input.next();
 						break;
 					case 6:
 						System.out.print("Enter status of subscription: ");
-						attr[choice - 1] = Main.input.nextLine();
+						attr[choice - 1] = Main.input.next();
 						break;
 					case 7:
 						System.out.print("Enter monthly subscription fee: ");
-						attr[choice - 1] = Main.input.nextLine();
+						attr[choice - 1] = Main.input.next();
 						break;
 					case 8:
 						done = true;
